@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tripzy - Digital Tourism Platform</title>
+  <title>Tripzy - Platform Manajemen Perjalanan Grup</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,7 +52,6 @@
       font-family: 'Inter', sans-serif;
       background: linear-gradient(180deg, #F0F4F8 0%, #FFFFFF 50%, #F0F4F8 100%);
       color: #1e293b;
-      transition: background-color 0.5s ease, color 0.3s ease;
       overflow-x: hidden;
     }
 
@@ -131,6 +130,7 @@
     }
     .dark .anim-object { opacity: 0.05; }
 
+    /* Smooth Cubic Bezier for Global BG */
     @keyframes flyDiagonal {
       0% { transform: translate(-100px, 100vh) rotate(15deg); }
       100% { transform: translate(calc(100vw + 100px), -100px) rotate(15deg); }
@@ -144,12 +144,6 @@
     @keyframes floatLeft {
         0% { transform: translateX(calc(100vw + 150px)); }
         100% { transform: translateX(-150px); }
-    }
-
-    @keyframes floatUp {
-        0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-        50% { opacity: 0.1; }
-        100% { transform: translateY(-100vh) rotate(10deg); opacity: 0; }
     }
 
     .plane-anim { animation: flyDiagonal 25s linear infinite; }
@@ -173,14 +167,14 @@
     }
 
     /* Section Gradients */
-    .section-gradient-1 {
-      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(203, 221, 233, 0.2) 100%);
+    .section-gradient {
+      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(203, 221, 233, 0.15) 100%);
     }
-    .dark .section-gradient-1 {
+    .dark .section-gradient {
       background: linear-gradient(180deg, rgba(15, 23, 42,0) 0%, rgba(40, 114, 161, 0.1) 100%);
     }
 
-    /* Reveal Animation */
+    /* Reveal Animation - SMOOTHER */
     .reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -190,7 +184,12 @@
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+    .reveal-delay-7 { transition-delay: 0.7s; }
     
+    /* Floating UI */
     @keyframes floatUI {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-15px); }
@@ -223,6 +222,141 @@
             align-items: center;
         }
     }
+
+    /* Feature Number Badge */
+    .feature-badge {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #2872A1 0%, #1E4F70 100%);
+      color: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       SMOOTH ANIMASI ICON (NO REDUCED MOTION)
+       ======================================== */
+    
+    /* Zap Pulse - Smooth Beat */
+    @keyframes zapPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.9; }
+    }
+    .anim-zap { animation: zapPulse 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+    /* Shield Bounce - Gentle Rock */
+    @keyframes shieldBounce {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-4px) rotate(-3deg); }
+      75% { transform: translateY(-4px) rotate(3deg); }
+    }
+    .anim-shield { animation: shieldBounce 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+    /* Chat Bubble - Smooth Pop */
+    @keyframes chatBubble {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(1.1) translateY(-5px); }
+    }
+    .anim-chat { animation: chatBubble 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+    /* Smile Wiggle - Fun Shake */
+    @keyframes smileWiggle {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+    .anim-smile { animation: smileWiggle 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+    /* Badge Pop - Solid Pulse */
+    @keyframes badgePop {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    .anim-badge { animation: badgePop 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+    /* ========================================
+       ANIMASI FITUR UTAMA
+       ======================================== */
+
+    /* Progress bar smooth fill */
+    @keyframes progressFill {
+      0% { width: 0%; }
+      100% { width: 75%; }
+    }
+    .progress-bar { animation: progressFill 2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+    /* Icon hover animation */
+    .feature-icon-hover {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+    }
+    .feature-card:hover .feature-icon-hover {
+      transform: scale(1.15) rotate(5deg);
+      background-color: rgba(40, 114, 161, 0.2);
+    }
+
+    /* Stagger children animation */
+    .stagger-child {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stagger-child.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       ANIMASI NILAI UNIK (FLOATING CARDS)
+       ======================================== */
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(1deg); }
+    }
+    
+    /* Variasi delay untuk efek natural */
+    .float-card-1 { animation: floatCard 4s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+    .float-card-2 { animation: floatCard 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.5s; }
+    .float-card-3 { animation: floatCard 5s cubic-bezier(0.4, 0, 0.2, 1) infinite 1s; }
+    .float-card-4 { animation: floatCard 4.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.5s; }
+    .float-card-5 { animation: floatCard 4.8s cubic-bezier(0.4, 0, 0.2, 1) infinite 2s; }
+    .float-card-6 { animation: floatCard 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.8s; }
+
+    /* Icon pulse glow */
+    @keyframes iconPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 114, 161, 0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(40, 114, 161, 0); }
+    }
+    .icon-pulse { animation: iconPulse 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+    /* Central icon glow */
+    @keyframes centralGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(40, 114, 161, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(40, 114, 161, 0.6); }
+    }
+    .central-glow { animation: centralGlow 3s ease-in-out infinite; }
+
+    /* ========================================
+       PERBAIKAN POSISI MOCKUP HP
+       ======================================== */
+    
+    .hero-visual-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone-mockup {
+      position: relative;
+    }
   </style>
 </head>
 
@@ -232,27 +366,24 @@
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-outline" id="cursor-outline"></div>
 
-  <!-- GLOBAL ANIMATED BACKGROUND (Planes, Clouds, Ships) -->
+  <!-- GLOBAL ANIMATED BACKGROUND -->
   <div class="bg-animations" id="bg-animations">
-      <!-- Plane 1 -->
+      <!-- Planes -->
       <div class="anim-object plane-anim" style="top: 20%; left: -100px; width: 80px; animation-delay: 0s;">
           <svg viewBox="0 0 24 24" fill="#2872A1"><path d="M21 16V14L13 9V3.5C13 2.67 12.33 2 11.5 2C10.67 2 10 2.67 10 3.5V9L2 14V16L10 13.5V19L8 20.5V22L11.5 21L15 22V20.5L13 19V13.5L21 16Z"/></svg>
       </div>
-      <!-- Plane 2 -->
       <div class="anim-object plane-anim" style="top: 60%; left: -150px; width: 60px; animation-delay: 10s; transform: rotate(180deg);">
           <svg viewBox="0 0 24 24" fill="#2872A1"><path d="M21 16V14L13 9V3.5C13 2.67 12.33 2 11.5 2C10.67 2 10 2.67 10 3.5V9L2 14V16L10 13.5V19L8 20.5V22L11.5 21L15 22V20.5L13 19V13.5L21 16Z"/></svg>
       </div>
 
-      <!-- Clouds Right to Left -->
+      <!-- Clouds -->
       <div class="anim-object cloud-right" style="top: 10%; width: 150px; animation-delay: 5s;">
           <svg viewBox="0 0 24 24" fill="#CBDDE9"><path d="M18 10C18 9.45 17.78 8.95 17.41 8.59C17.05 8.22 16.55 8 16 8C15.72 8 15.47 8.05 15.23 8.15C14.83 6.38 13.25 5 11.36 5C9.31 5 7.64 6.57 7.57 8.5C7.33 8.19 6.96 8 6.5 8C5.67 8 5 8.67 5 9.5C5 10.33 5.67 11 6.5 11H16C17.1 11 18 10.55 18 10Z"/></svg>
       </div>
       <div class="anim-object cloud-right" style="top: 40%; width: 200px; animation-delay: 15s;">
           <svg viewBox="0 0 24 24" fill="#CBDDE9"><path d="M18 10C18 9.45 17.78 8.95 17.41 8.59C17.05 8.22 16.55 8 16 8C15.72 8 15.47 8.05 15.23 8.15C14.83 6.38 13.25 5 11.36 5C9.31 5 7.64 6.57 7.57 8.5C7.33 8.19 6.96 8 6.5 8C5.67 8 5 8.67 5 9.5C5 10.33 5.67 11 6.5 11H16C17.1 11 18 10.55 18 10Z"/></svg>
       </div>
-      
-      <!-- Clouds Left to Right -->
-       <div class="anim-object cloud-left" style="top: 80%; width: 120px; animation-delay: 0s;">
+      <div class="anim-object cloud-left" style="top: 80%; width: 120px; animation-delay: 0s;">
           <svg viewBox="0 0 24 24" fill="#CBDDE9"><path d="M18 10C18 9.45 17.78 8.95 17.41 8.59C17.05 8.22 16.55 8 16 8C15.72 8 15.47 8.05 15.23 8.15C14.83 6.38 13.25 5 11.36 5C9.31 5 7.64 6.57 7.57 8.5C7.33 8.19 6.96 8 6.5 8C5.67 8 5 8.67 5 9.5C5 10.33 5.67 11 6.5 11H16C17.1 11 18 10.55 18 10Z"/></svg>
       </div>
 
@@ -266,7 +397,6 @@
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 p-4">
     <div class="max-w-7xl mx-auto px-4 lg:px-8">
         <div class="glass-apple rounded-3xl px-6 py-3 flex items-center justify-between shadow-sm">
-        <!-- Logo -->
         <a href="#" class="flex items-center gap-2 group">
             <div class="w-9 h-9 bg-ocean rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 shadow-md">
             <span class="font-display font-bold text-white text-lg">T</span>
@@ -274,16 +404,13 @@
             <span class="font-display font-semibold text-xl hidden sm:block text-slate-800 dark:text-white">Tripzy</span>
         </a>
         
-        <!-- Desktop Menu -->
         <div class="hidden lg:flex items-center gap-8">
             <a href="#features" class="text-slate-600 dark:text-slate-300 hover:text-ocean transition-colors text-sm font-medium">Fitur</a>
-            <a href="#solution" class="text-slate-600 dark:text-slate-300 hover:text-ocean transition-colors text-sm font-medium">Solusi</a>
-            <a href="#pricing" class="text-slate-600 dark:text-slate-300 hover:text-ocean transition-colors text-sm font-medium">Harga</a>
+            <a href="#users" class="text-slate-600 dark:text-slate-300 hover:text-ocean transition-colors text-sm font-medium">Pengguna</a>
+            <a href="#vision" class="text-slate-600 dark:text-slate-300 hover:text-ocean transition-colors text-sm font-medium">Visi</a>
         </div>
         
-        <!-- Right Side -->
         <div class="flex items-center gap-3">
-            <!-- Theme Toggle -->
             <button id="theme-toggle" class="w-9 h-9 rounded-full flex items-center justify-center bg-slate-100/50 dark:bg-slate-800/50 text-slate-600 dark:text-cloudy hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors">
             <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
@@ -292,16 +419,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
             </svg>
             </button>
-
-            <a href="#pricing" class="hidden sm:inline-flex btn-primary px-5 py-2 rounded-full text-sm font-medium">
-            Coba Gratis
-            </a>
-            
-            <!-- Mobile Menu Toggle -->
+            <a href="#contact" class="hidden sm:inline-flex btn-primary px-5 py-2 rounded-full text-sm font-medium">Hubungi Kami</a>
             <button id="menuToggle" class="lg:hidden w-9 h-9 flex items-center justify-center text-slate-800 dark:text-white">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
         </div>
         </div>
@@ -311,14 +431,12 @@
     <div class="lg:hidden fixed inset-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl z-40 translate-x-full transition-transform duration-500" id="mobileMenu">
       <div class="flex flex-col items-center justify-center h-full gap-8">
         <a href="#features" class="font-display text-3xl font-semibold text-slate-800 dark:text-white hover:text-ocean transition-colors mobile-link">Fitur</a>
-        <a href="#solution" class="font-display text-3xl font-semibold text-slate-800 dark:text-white hover:text-ocean transition-colors mobile-link">Solusi</a>
-        <a href="#pricing" class="font-display text-3xl font-semibold text-slate-800 dark:text-white hover:text-ocean transition-colors mobile-link">Harga</a>
-        <a href="#pricing" class="bg-ocean text-white font-medium px-8 py-3 rounded-full mt-4 mobile-link">Coba Gratis</a>
+        <a href="#users" class="font-display text-3xl font-semibold text-slate-800 dark:text-white hover:text-ocean transition-colors mobile-link">Pengguna</a>
+        <a href="#vision" class="font-display text-3xl font-semibold text-slate-800 dark:text-white hover:text-ocean transition-colors mobile-link">Visi</a>
+        <a href="#contact" class="bg-ocean text-white font-medium px-8 py-3 rounded-full mt-4 mobile-link">Hubungi Kami</a>
       </div>
       <button class="absolute top-6 right-6 w-10 h-10 text-slate-800 dark:text-white" id="closeMenu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
   </nav>
@@ -332,340 +450,435 @@
           <div class="reveal">
             <span class="inline-flex items-center gap-2 text-ocean font-medium text-sm tracking-wider uppercase glass-apple px-4 py-1.5 rounded-full">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"/></svg>
-              Platform Wisata Digital
+              Platform Manajemen Perjalanan Grup
             </span>
           </div>
           
           <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-slate-900 dark:text-white reveal reveal-delay-1">
-            Kelola trip
+            Apa itu
             <span class="text-ocean relative inline-block">
-              end-to-end
+              Tripzy
               <svg class="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
                 <path d="M2 10C50 2 150 2 198 10" stroke="#CBDDE9" stroke-width="4" stroke-linecap="round"/>
               </svg>
             </span>
-            <br>dalam satu genggaman
+            ?
           </h1>
           
           <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg mx-auto lg:mx-0 reveal reveal-delay-2">
-            Dari pendaftaran peserta, pembayaran, operasional lapangan, hingga laporan keuangan. Tripzy menyatukan semuanya untuk pengalaman wisata yang tak terlupakan.
+            Tripzy adalah aplikasi manajemen perjalanan grup yang menghubungkan peserta, guide, dan admin travel dalam satu platform real-time.
           </p>
           
-          <div class="flex flex-wrap gap-4 justify-center lg:justify-start reveal reveal-delay-3">
-            <a href="#pricing" class="btn-primary font-semibold px-8 py-4 rounded-full inline-flex items-center gap-3 group text-lg">
-              <span>Mulai Gratis Trial</span>
-              <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-              </svg>
+          <p class="text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0 reveal reveal-delay-3">
+            Dengan Tripzy, seluruh proses perjalanan dapat dikelola secara digital, terstruktur, dan aman.
+          </p>
+          
+          <div class="flex flex-wrap gap-4 justify-center lg:justify-start reveal reveal-delay-4">
+            <a href="#features" class="btn-primary font-semibold px-8 py-4 rounded-full inline-flex items-center gap-3 group text-lg">
+              <span>Lihat Fitur</span>
+              <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
-            <a href="#features" class="glass-apple hover:bg-white/90 dark:hover:bg-slate-800/90 text-slate-700 dark:text-white font-medium px-8 py-4 rounded-full transition-all inline-flex items-center gap-3 text-lg">
-              <span>Lihat Demo</span>
+            <a href="#users" class="glass-apple hover:bg-white/90 dark:hover:bg-slate-800/90 text-slate-700 dark:text-white font-medium px-8 py-4 rounded-full transition-all inline-flex items-center gap-3 text-lg">
+              <span>Siapa Penggunanya</span>
             </a>
           </div>
         </div>
         
-        <!-- Right Visual -->
+        <!-- Right Visual - FIXED POSITION -->
         <div class="relative reveal hidden lg:flex justify-center items-center">
-            <div class="relative w-full max-w-md h-[600px]">
-                <!-- Main Phone Mockup -->
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-[500px] bg-white dark:bg-slate-800 rounded-[3rem] shadow-2xl border-[6px] border-slate-200 dark:border-slate-700 overflow-hidden z-20 floating">
-                    <div class="w-full h-full bg-gradient-to-b from-ocean/10 to-sand dark:from-slate-900 dark:to-slate-800 relative p-2">
-                        <!-- Status Bar Mock -->
-                        <div class="w-32 h-6 bg-slate-200 dark:bg-slate-700 rounded-b-2xl mx-auto"></div>
-                        
-                        <!-- App Content -->
-                        <div class="mt-6 px-4 space-y-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-2xl bg-ocean/20 flex items-center justify-center">
-                                    <span class="text-ocean font-bold">T</span>
-                                </div>
-                                <div>
-                                    <h3 class="font-display font-bold text-slate-800 dark:text-white">Selamat Datang</h3>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Kelola tripmu hari ini</p>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-ocean rounded-3xl p-5 text-white shadow-lg">
-                                <div class="flex justify-between items-start mb-8">
-                                    <div>
-                                        <p class="text-xs opacity-80">Trip Aktif</p>
-                                        <h4 class="font-bold text-lg">Bromo Sunrise</h4>
-                                    </div>
-                                    <span class="px-3 py-1 bg-white/20 rounded-full text-xs">Proses</span>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <span>28 Peserta</span>
-                                    <span>2 hari lagi</span>
-                                </div>
-                            </div>
-                            
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="bg-white dark:bg-slate-700 p-4 rounded-3xl shadow-sm text-center">
-                                    <div class="text-ocean text-2xl font-bold">12</div>
-                                    <div class="text-xs text-slate-500">Booking</div>
-                                </div>
-                                <div class="bg-white dark:bg-slate-700 p-4 rounded-3xl shadow-sm text-center">
-                                    <div class="text-ocean text-2xl font-bold">4.9</div>
-                                    <div class="text-xs text-slate-500">Rating</div>
-                                </div>
-                            </div>
-                        </div>
+          <div class="hero-visual-container">
+            <!-- Phone Mockup -->
+            <div class="phone-mockup w-72 h-[500px] bg-white dark:bg-slate-800 rounded-[3rem] shadow-2xl border-[6px] border-slate-200 dark:border-slate-700 overflow-hidden z-20 floating">
+              <div class="w-full h-full bg-gradient-to-b from-ocean/10 to-sand dark:from-slate-900 dark:to-slate-800 relative p-2">
+                <div class="w-32 h-6 bg-slate-200 dark:bg-slate-700 rounded-b-2xl mx-auto"></div>
+                <div class="mt-6 px-4 space-y-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-ocean/20 flex items-center justify-center"><span class="text-ocean font-bold">T</span></div>
+                    <div>
+                      <h3 class="font-display font-bold text-slate-800 dark:text-white">Tripzy</h3>
+                      <p class="text-xs text-slate-500 dark:text-slate-400">Travel is Connected</p>
                     </div>
-                </div>
-
-                <!-- Floating Notification Card -->
-                <div class="absolute top-16 right-0 glass-apple p-4 rounded-3xl shadow-xl w-56 z-30 floating" style="animation-delay: 1s;">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="text-xs text-slate-500 dark:text-slate-400">Pembayaran</div>
-                            <div class="text-sm font-medium text-slate-800 dark:text-white">Rp 2.500.000</div>
-                        </div>
+                  </div>
+                  
+                  <div class="bg-ocean rounded-3xl p-5 text-white shadow-lg">
+                    <div class="flex justify-between items-start mb-6">
+                      <div>
+                        <p class="text-xs opacity-80">Trip Aktif</p>
+                        <h4 class="font-bold text-lg">Bromo Sunrise</h4>
+                      </div>
+                      <span class="px-3 py-1 bg-white/20 rounded-full text-xs">Live</span>
                     </div>
-                </div>
-
-                <!-- Floating Location Card -->
-                <div class="absolute bottom-20 left-0 glass-apple p-4 rounded-3xl shadow-xl w-48 z-30 floating" style="animation-delay: 2s;">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-ocean/10 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="text-xs text-slate-500 dark:text-slate-400">Lokasi Guide</div>
-                            <div class="text-sm font-medium text-slate-800 dark:text-white">Active Now</div>
-                        </div>
+                    <div class="flex justify-between text-sm mb-4">
+                      <span>28 Peserta</span>
+                      <span>Day 2</span>
                     </div>
+                    <div class="h-2 bg-white/30 rounded-full overflow-hidden">
+                      <div class="h-full bg-white rounded-full progress-bar"></div>
+                    </div>
+                  </div>
+                  
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-white dark:bg-slate-700 p-4 rounded-3xl shadow-sm text-center">
+                      <div class="text-ocean text-2xl font-bold">15</div>
+                      <div class="text-xs text-slate-500">Check-in</div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-700 p-4 rounded-3xl shadow-sm text-center">
+                      <div class="text-ocean text-2xl font-bold">SOS</div>
+                      <div class="text-xs text-slate-500">Safety</div>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+
+            <!-- Floating Cards -->
+            <div class="absolute top-8 -right-4 glass-apple p-4 rounded-3xl shadow-xl w-56 z-30 floating" style="animation-delay: 1s;">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">Pembayaran</div>
+                  <div class="text-sm font-medium text-slate-800 dark:text-white">Rp 2.500.000</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="absolute bottom-16 -left-4 glass-apple p-4 rounded-3xl shadow-xl w-48 z-30 floating" style="animation-delay: 2s;">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-ocean/10 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-500 dark:text-slate-400">Live Map</div>
+                  <div class="text-sm font-medium text-slate-800 dark:text-white">28/30 Here</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Problem Section -->
-  <section class="py-24 relative z-10 section-gradient-1">
+  <!-- Tujuan Aplikasi Section - SMOOTH ICON ANIMATION -->
+  <section class="py-24 relative z-10 section-gradient">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-ocean font-medium text-sm tracking-wider uppercase reveal">Masalah Umum</span>
-        <h2 class="font-display text-4xl lg:text-5xl font-bold mt-4 mb-6 text-slate-900 dark:text-white reveal reveal-delay-1">
-          Masih kelola trip secara manual?
-        </h2>
+        <span class="text-ocean font-medium text-sm tracking-wider uppercase reveal">Tujuan Aplikasi</span>
+        <h2 class="font-display text-4xl lg:text-5xl font-bold mt-4 mb-6 text-slate-900 dark:text-white reveal reveal-delay-1">Tripzy dirancang untuk</h2>
       </div>
       
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="glass-apple p-8 rounded-[2rem] reveal hover:scale-[1.02] transition-transform duration-300">
-          <div class="w-14 h-14 bg-red-50 dark:bg-red-900/30 rounded-2xl flex items-center justify-center mb-6">
-            <svg class="w-7 h-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
+      <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <!-- Card 1 - Memudahkan -->
+        <div class="glass-apple p-6 rounded-[2rem] reveal hover:scale-[1.02] transition-transform duration-300 text-center group">
+          <div class="w-14 h-14 bg-ocean/10 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:bg-ocean/20 transition-colors">
+            <svg class="w-7 h-7 text-ocean anim-zap" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
-          <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Pendaftaran Berantakan</h3>
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-            Data peserta tersebar di chat, Excel, dan kertas. Pembayaran manual yang merepotkan.
-          </p>
+          <p class="text-slate-700 dark:text-slate-200 text-sm font-medium leading-relaxed">Memudahkan travel operator mengelola trip</p>
         </div>
         
-        <div class="glass-apple p-8 rounded-[2rem] reveal reveal-delay-1 hover:scale-[1.02] transition-transform duration-300">
-          <div class="w-14 h-14 bg-red-50 dark:bg-red-900/30 rounded-2xl flex items-center justify-center mb-6">
-            <svg class="w-7 h-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
-            </svg>
+        <!-- Card 2 - Keamanan -->
+        <div class="glass-apple p-6 rounded-[2rem] reveal reveal-delay-1 hover:scale-[1.02] transition-transform duration-300 text-center group">
+          <div class="w-14 h-14 bg-ocean/10 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:bg-ocean/20 transition-colors">
+            <svg class="w-7 h-7 text-ocean anim-shield" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           </div>
-          <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Koordinasi Sulit</h3>
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-            Peserta tersesat, update jadwal terlewat, komunikasi via WA grup yang tidak efisien.
-          </p>
+          <p class="text-slate-700 dark:text-slate-200 text-sm font-medium leading-relaxed">Meningkatkan keamanan peserta</p>
         </div>
         
-        <div class="glass-apple p-8 rounded-[2rem] reveal reveal-delay-2 hover:scale-[1.02] transition-transform duration-300">
-          <div class="w-14 h-14 bg-red-50 dark:bg-red-900/30 rounded-2xl flex items-center justify-center mb-6">
-            <svg class="w-7 h-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
+        <!-- Card 3 - Koordinasi -->
+        <div class="glass-apple p-6 rounded-[2rem] reveal reveal-delay-2 hover:scale-[1.02] transition-transform duration-300 text-center group">
+          <div class="w-14 h-14 bg-ocean/10 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:bg-ocean/20 transition-colors">
+            <svg class="w-7 h-7 text-ocean anim-chat" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
           </div>
-          <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Laporan Manual</h3>
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-            Rekap keuangan trip butuh waktu berhari-hari. Dokumentasi foto tersebar di mana-mana.
-          </p>
+          <p class="text-slate-700 dark:text-slate-200 text-sm font-medium leading-relaxed">Mengurangi koordinasi manual via chat</p>
+        </div>
+        
+        <!-- Card 4 - Pengalaman -->
+        <div class="glass-apple p-6 rounded-[2rem] reveal reveal-delay-3 hover:scale-[1.02] transition-transform duration-300 text-center group">
+          <div class="w-14 h-14 bg-ocean/10 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:bg-ocean/20 transition-colors">
+            <svg class="w-7 h-7 text-ocean anim-smile" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <p class="text-slate-700 dark:text-slate-200 text-sm font-medium leading-relaxed">Memberikan pengalaman perjalanan modern</p>
+        </div>
+        
+        <!-- Card 5 - Profesional -->
+        <div class="glass-apple p-6 rounded-[2rem] reveal reveal-delay-4 hover:scale-[1.02] transition-transform duration-300 text-center group">
+          <div class="w-14 h-14 bg-ocean/10 rounded-2xl flex items-center justify-center mb-4 mx-auto group-hover:bg-ocean/20 transition-colors">
+            <svg class="w-7 h-7 text-ocean anim-badge" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+          </div>
+          <p class="text-slate-700 dark:text-slate-200 text-sm font-medium leading-relaxed">Membuat operasional travel lebih profesional</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section id="features" class="py-24 relative z-10">
+  <!-- Siapa Yang Menggunakan Section -->
+  <section id="users" class="py-24 relative z-10">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-ocean font-medium text-sm tracking-wider uppercase reveal">Fitur Lengkap</span>
-        <h2 class="font-display text-4xl lg:text-5xl font-bold mt-4 mb-6 text-slate-900 dark:text-white reveal reveal-delay-1">
-          Solusi terintegrasi untuk travel modern
-        </h2>
+        <span class="text-ocean font-medium text-sm tracking-wider uppercase reveal">Siapa Yang Menggunakan</span>
+        <h2 class="font-display text-4xl lg:text-5xl font-bold mt-4 mb-6 text-slate-900 dark:text-white reveal reveal-delay-1">Dibuat untuk seluruh ekosistem perjalanan</h2>
       </div>
       
-      <div class="grid lg:grid-cols-4 gap-6">
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Peserta -->
+        <div class="glass-apple p-8 rounded-[2rem] reveal hover:scale-[1.02] transition-transform duration-300 group">
+          <div class="w-16 h-16 bg-gradient-to-br from-ocean to-ocean-dark rounded-3xl flex items-center justify-center mb-6 shadow-lg shadow-ocean/30 group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <h3 class="font-display text-2xl font-semibold mb-4 text-slate-800 dark:text-white">Peserta Perjalanan</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Untuk melihat jadwal, lokasi guide, info trip, dan komunikasi.</p>
+          <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Dashboard perjalanan pribadi</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Jadwal & notifikasi otomatis</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Live map & navigasi</li>
+          </ul>
+        </div>
+        
+        <!-- Guide -->
+        <div class="glass-apple p-8 rounded-[2rem] reveal reveal-delay-1 hover:scale-[1.02] transition-transform duration-300 group">
+          <div class="w-16 h-16 bg-gradient-to-br from-ocean to-ocean-dark rounded-3xl flex items-center justify-center mb-6 shadow-lg shadow-ocean/30 group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+          </div>
+          <h3 class="font-display text-2xl font-semibold mb-4 text-slate-800 dark:text-white">Guide Tour</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Untuk mengatur peserta, kirim informasi, dan mengontrol perjalanan.</p>
+          <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Monitoring peserta real-time</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Broadcast & chat terintegrasi</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Attendance check-in</li>
+          </ul>
+        </div>
+        
+        <!-- Admin -->
+        <div class="glass-apple p-8 rounded-[2rem] reveal reveal-delay-2 hover:scale-[1.02] transition-transform duration-300 group">
+          <div class="w-16 h-16 bg-gradient-to-br from-ocean to-ocean-dark rounded-3xl flex items-center justify-center mb-6 shadow-lg shadow-ocean/30 group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+          <h3 class="font-display text-2xl font-semibold mb-4 text-slate-800 dark:text-white">Admin Travel</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">Untuk mengelola penjualan trip, data peserta, keuangan, dan operasional.</p>
+          <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Dashboard manajemen trip</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Laporan keuangan otomatis</li>
+            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Manajemen peserta</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fitur Utama Section - WITH ANIMATION -->
+  <section id="features" class="py-24 relative z-10 section-gradient">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-ocean font-medium text-sm tracking-wider uppercase reveal">Fitur Utama</span>
+        <h2 class="font-display text-4xl lg:text-5xl font-bold mt-4 mb-6 text-slate-900 dark:text-white reveal reveal-delay-1">Fitur lengkap untuk manajemen perjalanan</h2>
+      </div>
+      
+      <div class="space-y-4" id="features-container">
         <!-- Feature 1 -->
-        <div class="glass-apple p-8 rounded-[2rem] reveal group hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center">
-          <div class="w-16 h-16 bg-ocean/10 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-ocean transition-colors duration-300">
-            <svg class="w-8 h-8 text-ocean group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-            </svg>
+        <div class="feature-card glass-apple p-6 lg:p-8 rounded-[2rem] reveal hover:scale-[1.01] transition-all duration-300 stagger-child">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="feature-badge">1</div>
+            <div class="flex-1">
+              <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Pendaftaran & Pembayaran Trip</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">Halaman pendaftaran online per trip dengan form peserta otomatis masuk sistem. Pembayaran langsung via QRIS / VA / e-wallet dengan status tercatat otomatis.</p>
+              <div class="inline-flex items-center gap-2 text-ocean text-sm font-medium">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                Membuat travel bisa menjual trip lebih mudah tanpa proses manual
+              </div>
+            </div>
+            <div class="w-16 h-16 bg-ocean/10 rounded-2xl flex items-center justify-center flex-shrink-0 feature-icon-hover">
+              <svg class="w-8 h-8 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </div>
           </div>
-          <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Booking Engine</h3>
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-            Landing page khusus per trip. Pembayaran otomatis via QRIS & E-wallet.
-          </p>
         </div>
-        
+
         <!-- Feature 2 -->
-        <div class="glass-apple p-8 rounded-[2rem] reveal reveal-delay-1 group hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center">
-          <div class="w-16 h-16 bg-ocean/10 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-ocean transition-colors duration-300">
-            <svg class="w-8 h-8 text-ocean group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-            </svg>
+        <div class="feature-card glass-apple p-6 lg:p-8 rounded-[2rem] reveal reveal-delay-1 hover:scale-[1.01] transition-all duration-300 stagger-child">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="feature-badge">2</div>
+            <div class="flex-1">
+              <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Dashboard Perjalanan Peserta</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">Peserta mendapatkan jadwal kegiatan lengkap, info hotel, transport, guide, notifikasi perubahan jadwal, pengingat meeting point, dan kontak darurat.</p>
+            </div>
+            <div class="w-16 h-16 bg-ocean/10 rounded-2xl flex items-center justify-center flex-shrink-0 feature-icon-hover">
+              <svg class="w-8 h-8 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg>
+            </div>
           </div>
-          <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Live Operations</h3>
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-            Dashboard real-time untuk guide. Lacak peserta, kirim broadcast, update itinerary.
-          </p>
         </div>
-        
+
         <!-- Feature 3 -->
-        <div class="glass-apple p-8 rounded-[2rem] reveal reveal-delay-2 group hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center">
-          <div class="w-16 h-16 bg-ocean/10 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-ocean transition-colors duration-300">
-            <svg class="w-8 h-8 text-ocean group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-            </svg>
+        <div class="feature-card glass-apple p-6 lg:p-8 rounded-[2rem] reveal reveal-delay-2 hover:scale-[1.01] transition-all duration-300 stagger-child">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="feature-badge">3</div>
+            <div class="flex-1">
+              <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Live Map & Lokasi Peserta</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">Peserta dapat melihat lokasi guide, guide dapat memonitor posisi peserta, navigasi ke meeting point, membantu mencegah peserta tersesat.</p>
+            </div>
+            <div class="w-16 h-16 bg-ocean/10 rounded-2xl flex items-center justify-center flex-shrink-0 feature-icon-hover">
+              <svg class="w-8 h-8 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
           </div>
-          <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Safety System</h3>
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-            Tombol SOS darurat, integrasi asuransi, dan fitur offline mode.
-          </p>
         </div>
-        
+
         <!-- Feature 4 -->
-        <div class="glass-apple p-8 rounded-[2rem] reveal reveal-delay-3 group hover:scale-[1.02] transition-all duration-300 flex flex-col items-center text-center">
-          <div class="w-16 h-16 bg-ocean/10 rounded-3xl flex items-center justify-center mb-6 group-hover:bg-ocean transition-colors duration-300">
-            <svg class="w-8 h-8 text-ocean group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-            </svg>
+        <div class="feature-card glass-apple p-6 lg:p-8 rounded-[2rem] reveal reveal-delay-3 hover:scale-[1.01] transition-all duration-300 stagger-child">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="feature-badge">4</div>
+            <div class="flex-1">
+              <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Komunikasi Terintegrasi</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">Broadcast pesan ke seluruh peserta, chat pribadi peserta-guide, notifikasi pop-up langsung ke aplikasi. Informasi penting dapat diterima semua peserta secara cepat.</p>
+            </div>
+            <div class="w-16 h-16 bg-ocean/10 rounded-2xl flex items-center justify-center flex-shrink-0 feature-icon-hover">
+              <svg class="w-8 h-8 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            </div>
           </div>
-          <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Finance & Docs</h3>
-          <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-            Laporan keuangan otomatis per trip. Album dokumentasi tersusun rapi.
-          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card glass-apple p-6 lg:p-8 rounded-[2rem] reveal reveal-delay-4 hover:scale-[1.01] transition-all duration-300 stagger-child">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="feature-badge">5</div>
+            <div class="flex-1">
+              <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Keamanan Perjalanan</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">Tombol SOS darurat peserta, lokasi otomatis terkirim ke guide/admin, opsi integrasi asuransi perjalanan saat daftar. Tripzy membantu travel meningkatkan standar keselamatan.</p>
+            </div>
+            <div class="w-16 h-16 bg-ocean/10 rounded-2xl flex items-center justify-center flex-shrink-0 feature-icon-hover">
+              <svg class="w-8 h-8 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card glass-apple p-6 lg:p-8 rounded-[2rem] reveal reveal-delay-5 hover:scale-[1.01] transition-all duration-300 stagger-child">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="feature-badge">6</div>
+            <div class="flex-1">
+              <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Mode Offline / Minim Data</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">Itinerary tetap bisa dibuka tanpa internet, info penting tetap tersedia. Cocok untuk perjalanan ke daerah terpencil dengan koneksi terbatas.</p>
+            </div>
+            <div class="w-16 h-16 bg-ocean/10 rounded-2xl flex items-center justify-center flex-shrink-0 feature-icon-hover">
+              <svg class="w-8 h-8 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 7 -->
+        <div class="feature-card glass-apple p-6 lg:p-8 rounded-[2rem] reveal reveal-delay-6 hover:scale-[1.01] transition-all duration-300 stagger-child">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="feature-badge">7</div>
+            <div class="flex-1">
+              <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Dokumentasi & Review Pasca Trip</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">Album foto trip langsung di aplikasi, peserta bisa download dokumentasi, sistem rating & review perjalanan. Membantu travel meningkatkan kualitas layanan dan kredibilitas.</p>
+            </div>
+            <div class="w-16 h-16 bg-ocean/10 rounded-2xl flex items-center justify-center flex-shrink-0 feature-icon-hover">
+              <svg class="w-8 h-8 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 8 -->
+        <div class="feature-card glass-apple p-6 lg:p-8 rounded-[2rem] reveal reveal-delay-7 hover:scale-[1.01] transition-all duration-300 stagger-child">
+          <div class="flex flex-col lg:flex-row gap-6 items-start">
+            <div class="feature-badge">8</div>
+            <div class="flex-1">
+              <h3 class="font-display text-xl font-semibold mb-3 text-slate-800 dark:text-white">Dashboard Admin Travel</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">Admin dapat membuat dan mengelola trip, melihat daftar peserta, memantau pembayaran, melihat laporan keuangan per trip, melihat profit/loss perjalanan.</p>
+            </div>
+            <div class="w-16 h-16 bg-ocean/10 rounded-2xl flex items-center justify-center flex-shrink-0 feature-icon-hover">
+              <svg class="w-8 h-8 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Pricing Section -->
-  <section id="pricing" class="py-24 relative z-10 section-gradient-1">
+  <!-- Nilai Unik Section - FLOATING ANIMATION -->
+  <section class="py-24 relative z-10">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-ocean font-medium text-sm tracking-wider uppercase reveal">Harga</span>
-        <h2 class="font-display text-4xl lg:text-5xl font-bold mt-4 mb-6 text-slate-900 dark:text-white reveal reveal-delay-1">
-          Investasi tepat untuk bisnis travel
-        </h2>
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="reveal">
+          <span class="text-ocean font-medium text-sm tracking-wider uppercase">Nilai Unik Tripzy</span>
+          <h2 class="font-display text-4xl lg:text-5xl font-bold mt-4 mb-6 text-slate-900 dark:text-white">Bukan sekadar aplikasi travel atau booking</h2>
+          <p class="text-slate-600 dark:text-slate-300 text-lg mb-8 leading-relaxed">Tripzy adalah sistem operasional perjalanan grup end-to-end yang menggabungkan:</p>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div class="glass-apple p-4 rounded-2xl flex items-center gap-3 float-card-1 hover:scale-[1.02] transition-transform">
+              <div class="w-10 h-10 bg-ocean/10 rounded-xl flex items-center justify-center icon-pulse"><svg class="w-5 h-5 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg></div>
+              <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Booking System</span>
+            </div>
+            <div class="glass-apple p-4 rounded-2xl flex items-center gap-3 float-card-2 hover:scale-[1.02] transition-transform">
+              <div class="w-10 h-10 bg-ocean/10 rounded-xl flex items-center justify-center icon-pulse"><svg class="w-5 h-5 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg></div>
+              <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Payment System</span>
+            </div>
+            <div class="glass-apple p-4 rounded-2xl flex items-center gap-3 float-card-3 hover:scale-[1.02] transition-transform">
+              <div class="w-10 h-10 bg-ocean/10 rounded-xl flex items-center justify-center icon-pulse"><svg class="w-5 h-5 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+              <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Trip Management</span>
+            </div>
+            <div class="glass-apple p-4 rounded-2xl flex items-center gap-3 float-card-4 hover:scale-[1.02] transition-transform">
+              <div class="w-10 h-10 bg-ocean/10 rounded-xl flex items-center justify-center icon-pulse"><svg class="w-5 h-5 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg></div>
+              <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Live Coordination</span>
+            </div>
+            <div class="glass-apple p-4 rounded-2xl flex items-center gap-3 float-card-5 hover:scale-[1.02] transition-transform">
+              <div class="w-10 h-10 bg-ocean/10 rounded-xl flex items-center justify-center icon-pulse"><svg class="w-5 h-5 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+              <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Safety Monitoring</span>
+            </div>
+            <div class="glass-apple p-4 rounded-2xl flex items-center gap-3 float-card-6 hover:scale-[1.02] transition-transform">
+              <div class="w-10 h-10 bg-ocean/10 rounded-xl flex items-center justify-center icon-pulse"><svg class="w-5 h-5 text-ocean" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+              <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Business Reporting</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reveal reveal-delay-2 relative">
+          <div class="glass-apple p-8 rounded-[2rem] text-center">
+            <div class="w-24 h-24 bg-gradient-to-br from-ocean to-ocean-dark rounded-3xl flex items-center justify-center mb-6 mx-auto shadow-xl shadow-ocean/30 central-glow">
+              <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+            </div>
+            <h3 class="font-display text-2xl font-semibold mb-4 text-slate-800 dark:text-white">Satu Platform</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">Semua fitur terintegrasi dalam satu ekosistem digital yang saling terhubung, membuat operasional travel lebih efisien dan terkontrol.</p>
+          </div>
+        </div>
       </div>
-      
-      <div class="grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
-        <!-- Basic Plan -->
-        <div class="glass-apple rounded-[2rem] p-8 reveal hover:scale-[1.02] transition-transform pt-10">
-          <div class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-2">Basic</div>
-          <div class="flex items-end gap-2 mb-4">
-            <span class="font-display text-4xl font-bold text-slate-900 dark:text-white">Rp299rb</span>
-            <span class="text-slate-500 text-sm mb-1">/bulan</span>
+    </div>
+  </section>
+
+  <!-- Visi Produk Section -->
+  <section id="vision" class="py-24 relative z-10 section-gradient">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="glass-apple p-12 lg:p-16 rounded-[2.5rem] text-center reveal">
+        <div class="max-w-3xl mx-auto">
+          <span class="text-ocean font-medium text-sm tracking-wider uppercase">Visi Produk</span>
+          <h2 class="font-display text-3xl lg:text-4xl font-bold mt-4 mb-6 text-slate-900 dark:text-white">Platform standar untuk operasional perjalanan grup</h2>
+          <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed mb-8">Tripzy bertujuan menjadi platform standar untuk operasional perjalanan grup di Indonesia dan Asia Tenggara, membantu travel bertransformasi dari sistem manual menjadi digital.</p>
+          <div class="flex flex-wrap gap-4 justify-center">
+            <div class="bg-ocean/10 px-6 py-3 rounded-full text-ocean font-medium text-sm">Indonesia</div>
+            <div class="bg-ocean/10 px-6 py-3 rounded-full text-ocean font-medium text-sm">Asia Tenggara</div>
+            <div class="bg-ocean/10 px-6 py-3 rounded-full text-ocean font-medium text-sm">Transformasi Digital</div>
           </div>
-          <p class="text-slate-600 dark:text-slate-300 text-sm mb-8">Untuk travel operator yang baru memulai.</p>
-          
-          <ul class="space-y-4 mb-8 text-sm text-slate-600 dark:text-slate-300">
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              1 trip aktif
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              50 peserta/trip
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              Booking engine
-            </li>
-          </ul>
-          
-          <button class="w-full glass-apple border border-ocean text-ocean font-medium py-3 rounded-full hover:bg-ocean hover:text-white transition-colors">
-            Mulai Trial
-          </button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="contact" class="py-24 relative z-10">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+      <div class="reveal">
+        <span class="text-ocean font-medium text-sm tracking-wider uppercase">Travel is Connected</span>
+        <h2 class="font-display text-4xl lg:text-5xl font-bold mt-4 mb-6 text-slate-900 dark:text-white">Siap transformasi digital?</h2>
+        <p class="text-slate-600 dark:text-slate-300 text-lg mb-10 max-w-2xl mx-auto">Hubungi kami untuk demo produk dan konsultasi kebutuhan operasional travel Anda.</p>
         
-        <!-- Professional Plan -->
-        <div class="glass-apple rounded-[2rem] p-8 relative reveal reveal-delay-1 border-2 border-ocean/20 scale-100 lg:scale-105 z-10 pt-10 shadow-2xl shadow-ocean/10">
-          <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-ocean text-white text-xs font-semibold px-4 py-1 rounded-full shadow-lg">
-            POPULER
-          </div>
-          <div class="text-ocean text-sm font-medium mb-2">Professional</div>
-          <div class="flex items-end gap-2 mb-4">
-            <span class="font-display text-4xl font-bold text-slate-900 dark:text-white">Rp799rb</span>
-            <span class="text-slate-500 text-sm mb-1">/bulan</span>
-          </div>
-          <p class="text-slate-600 dark:text-slate-300 text-sm mb-8">Untuk travel operator berkembang.</p>
-          
-          <ul class="space-y-4 mb-8 text-sm text-slate-600 dark:text-slate-300">
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              5 trip aktif
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              200 peserta/trip
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              Live tracking & SOS
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              Laporan keuangan
-            </li>
-          </ul>
-          
-          <button class="w-full btn-primary text-white font-semibold py-3 rounded-full">
-            Mulai Trial
-          </button>
-        </div>
-        
-        <!-- Enterprise Plan -->
-        <div class="glass-apple rounded-[2rem] p-8 reveal reveal-delay-2 hover:scale-[1.02] transition-transform pt-10">
-          <div class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-2">Enterprise</div>
-          <div class="flex items-end gap-2 mb-4">
-            <span class="font-display text-4xl font-bold text-slate-900 dark:text-white">Custom</span>
-          </div>
-          <p class="text-slate-600 dark:text-slate-300 text-sm mb-8">Untuk travel operator skala besar.</p>
-          
-          <ul class="space-y-4 mb-8 text-sm text-slate-600 dark:text-slate-300">
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              Trip unlimited
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              White-label
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-ocean flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              Dedicated support
-            </li>
-          </ul>
-          
-          <button class="w-full glass-apple border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3 rounded-full hover:border-ocean transition-colors">
-            Hubungi Sales
-          </button>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="mailto:hello@tripzy.id" class="btn-primary font-semibold px-10 py-5 rounded-full inline-flex items-center gap-3 group text-lg">
+            <span>Hubungi Kami</span>
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a href="#" class="glass-apple hover:bg-white/90 dark:hover:bg-slate-800/90 text-slate-700 dark:text-white font-medium px-10 py-5 rounded-full transition-all inline-flex items-center gap-3 text-lg">
+            <span>Jadwalkan Demo</span>
+          </a>
         </div>
       </div>
     </div>
@@ -676,9 +889,7 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="glass-apple rounded-[2rem] p-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-ocean rounded-xl flex items-center justify-center shadow-md">
-            <span class="font-display font-bold text-white">T</span>
-            </div>
+            <div class="w-8 h-8 bg-ocean rounded-xl flex items-center justify-center shadow-md"><span class="font-display font-bold text-white">T</span></div>
             <span class="font-display font-semibold text-lg text-slate-800 dark:text-white">Tripzy</span>
         </div>
         <p class="text-slate-500 dark:text-slate-400 text-sm">2024 Tripzy. Travel is Connected.</p>
@@ -743,6 +954,20 @@
     }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
     revealElements.forEach(el => revealObserver.observe(el));
+
+    // Stagger Animation for Features
+    const staggerChildren = document.querySelectorAll('.stagger-child');
+    const staggerObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, index * 100);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    staggerChildren.forEach(el => staggerObserver.observe(el));
 
     // Mobile Menu
     const menuToggle = document.getElementById('menuToggle');
