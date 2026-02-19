@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TRIPZY - Your Travel Buddy</title>
+    <meta name="theme-color" content="#0ea5e9">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --sky-50: #f0f9ff;
+            --sky-100: #e0f2fe;
+            --sky-200: #bae6fd;
+            --sky-300: #7dd3fc;
+            --sky-400: #38bdf8;
+            --sky-500: #0ea5e9;
+            --sky-600: #0284c7;
+            --sky-700: #0369a1;
+            --sky-800: #075985;
+            --sky-900: #0c4a6e;
+            --coral: #f97316;
+            --coral-light: #fb923c;
+            --bg-main: #f8fbff;
+            --text-primary: #0c4a6e;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-weight: 400;
+        }
+
+        .font-display { font-family: 'Sora', sans-serif; }
+
+        /* Decorative Background */
+        .bg-decoration {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+        }
+
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--sky-200), var(--sky-300));
+            top: -200px;
+            right: -100px;
+            animation: floatBlob 25s ease-in-out infinite;
+        }
+
+        .blob-2 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, var(--sky-100), var(--sky-200));
+            bottom: -100px;
+            left: -200px;
+            animation: floatBlob 30s ease-in-out infinite reverse;
+        }
+
+        .blob-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--coral-light), var(--sky-300));
+            opacity: 0.2;
+            top: 40%;
+            right: -150px;
+            animation: floatBlob 20s ease-in-out infinite;
+        }
+
+        @keyframes floatBlob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -50px) scale(1.05); }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(14, 165, 233, 0.06);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 40px rgba(14, 165, 233, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .card-static {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(14, 165, 233, 0.06);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--sky-500) 0%, var(--sky-600) 100%);
+            color: white;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(14, 165, 233, 0.3);
+            font-size: 15px;
+            font-family: 'Outfit', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
+        }
+
+        .btn-primary:active { transform: scale(0.97); }
+
+        .btn-secondary {
+            background: white;
+            color: var(--sky-600);
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 16px;
+            border: 2px solid var(--sky-100);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--sky-400);
+            background: var(--sky-50);
+        }
+
+        .btn-coral {
+            background: linear-gradient(135deg, var(--coral) 0%, var(--coral-light) 100%);
+            box-shadow: 0 4px 16px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-coral:hover {
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
+        }
+
+        .btn-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 1px solid var(--sky-100);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--sky-600);
+        }
+
+        .btn-icon:hover {
+            background: var(--sky-50);
+            border-color: var(--sky-200);
+            transform: scale(1.05);
+        }
+
+        /* Inputs */
+        .input-field {
+            width: 100%;
+            background: white;
+            border: 2px solid var(--sky-100);
+            border-radius: 16px;
+            padding: 16px 16px 16px 52px;
+            font-size: 15px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--sky-400);
+            box-shadow: 0 0 0 4px var(--sky-100);
+        }
+
+        .input-field::placeholder { color: var(--text-muted); }
+
+        /* Page System */
+        .app-page {
+            display: none;
+            opacity: 0;
+        }
+
+        .app-page.active {
+            display: block;
+            animation: pageEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes pageEnter {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 8px 16px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+        }
+
+        .nav-container {
+            max-width: 440px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 8px;
+            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 16px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .nav-item.active {
+            color: var(--sky-600);
+            background: var(--sky-50);
+        }
+
+        .nav-item span { font-size: 11px; font-weight: 600; letter-spacing: 0.3px; }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .badge-sky { background: var(--sky-100); color: var(--sky-700); }
+        .badge-coral { background: rgba(249, 115, 22, 0.12); color: var(--coral); }
+        .badge-green { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
+        .badge-yellow { background: rgba(251, 191, 36, 0.15); color: #d97706; }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(14, 165, 233, 0.15);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-content {
+            width: 100%;
+            max-width: 440px;
+            max-height: 92vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 32px 32px 24px 24px;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 300;
+            width: calc(100% - 32px);
+            max-width: 400px;
+        }
+
+        .toast {
+            background: white;
+            border-radius: 18px;
+            padding: 16px 20px;
+            box-shadow: 0 12px 40px rgba(14, 165, 233, 0.2);
+            border-left: 4px solid var(--sky-500);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transform: translateY(-150px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success { border-left-color: #16a34a; }
+        .toast.warning { border-left-color: var(--coral); }
+
+        /* Animations */
+        .animate-in {
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* Destination Card */
+        .dest-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .dest-card img { transition: transform 0.6s ease; }
+        .dest-card:hover img { transform: scale(1.08); }
+
+        .dest-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 60px 20px 20px;
+            background: linear-gradient(0deg, rgba(12, 74, 110, 0.9) 0%, transparent 100%);
+        }
+
+        /* Avatar */
+        .avatar-ring {
+            padding: 3px;
+            background: linear-gradient(135deg, var(--sky-400), var(--coral));
+            border-radius: 50%;
+        }
+
+        /* Chat Bubbles */
+        .chat-sent {
+            background: linear-gradient(135deg, var(--sky-500), var(--sky-600));
+            color: white;
+            border-radius: 20px 20px 6px 20px;
+        }
+
+        .chat-received {
+            background: var(--sky-50);
+            color: var(--text-primary);
+            border-radius: 20px 20px 20px 6px;
+        }
+
+        /* Timeline Itinerary */
+        .timeline-item {
+            position: relative;
+            padding-left: 36px;
+            padding-bottom: 28px;
+            border-left: 2px solid var(--sky-100);
+            margin-left: 14px;
+        }
+
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--sky-500);
+            border: 4px solid white;
+            box-shadow: 0 0 0 2px var(--sky-100);
+        }
+
+        .timeline-item.active .timeline-dot {
+            background: var(--coral);
+            box-shadow: 0 0 0 2px var(--coral);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* Filter Chips Active */
+        .filter-chip {
+            padding: 10px 18px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .filter-chip.active {
+            background: linear-gradient(135deg, var(--sky-500), var(--sky-600));
+            color: white;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        .filter-chip:not(.active) {
+            background: white;
+            color: var(--text-secondary);
+            border: 1px solid var(--sky-100);
+        }
+
+        .filter-chip:not(.active):hover {
+            border-color: var(--sky-300);
+            color: var(--sky-600);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--sky-200); border-radius: 2px; }
+
+        /* Desktop */
+        @media (min-width: 768px) {
+            .modal-overlay { align-items: center; }
+            .modal-content { border-radius: 32px; max-height: 88vh; }
+            .bottom-nav { left: 50%; transform: translateX(-50%); max-width: 500px; }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.1s !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="bg-decoration">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+        <div class="bg-blob blob-3"></div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast-container">
+        <div id="toast" class="toast">
+            <div id="toastIcon"></div>
+            <span id="toastText" class="font-semibold text-sm flex-1"></span>
+        </div>
+    </div>
+
+    <!-- ==================== LOGIN PAGE ==================== -->
+    <div id="loginPage" class="app-page active min-h-screen flex items-center justify-center p-5">
+        <div class="w-full max-w-md">
+            <!-- Logo -->
+            <div class="text-center mb-10 animate-in">
+                <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-sky-400 to-sky-600 mb-6 shadow-2xl shadow-sky-500/30">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1 class="font-display text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-700 mb-3">TRIPZY</h1>
+                <p class="text-sky-500 font-medium text-lg">Your Ultimate Travel Buddy</p>
+            </div>
+
+            <!-- Login Card -->
+            <div class="card-static p-8 animate-in delay-1">
+                <h2 class="font-display text-2xl font-bold text-center mb-8 text-sky-900">Selamat Datang!</h2>
+                
+                <!-- Email -->
+                <div class="mb-5">
+                    <label class="text-xs font-bold text-sky-700 uppercase tracking-wider mb-2 block">Email</label>
+                    <div class="relative">
+                        <svg class="absolute left-5 top-1/2 -translate-y-1/2 text-sky-400" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                        <input type="email" id="loginEmail" class="input-field" placeholder="nama@email.com" value="nanda@tripzy.com">
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-8">
+                    <label class="text-xs font-bold text-sky-700 uppercase tracking-wider mb-2 block">Password</label>
+                    <div class="relative">
+                        <svg class="absolute left-5 top-1/2 -translate-y-1/2 text-sky-400" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        <input type="password" id="loginPassword" class="input-field pr-12" placeholder="Masukkan password" value="nanda123">
+                        <button type="button" class="absolute right-5 top-1/2 -translate-y-1/2 text-sky-400 hover:text-sky-600 transition-colors" onclick="togglePassword()">
+                            <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Login Button -->
+                <button class="btn-primary w-full mb-5" onclick="handleLogin()">
+                    <span>Masuk ke TRIPZY</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+
+                <!-- Divider -->
+                <div class="flex items-center gap-4 my-6">
+                    <div class="flex-1 h-px bg-sky-100"></div>
+                    <span class="text-sky-400 text-xs font-medium">atau masuk dengan</span>
+                    <div class="flex-1 h-px bg-sky-100"></div>
+                </div>
+
+                <!-- Social Login -->
+                <div class="grid grid-cols-3 gap-3">
+                    <button class="btn-secondary flex items-center justify-center py-4" onclick="socialLogin('Google')">
+                        <svg width="22" height="22" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                    </button>
+                    <button class="btn-secondary flex items-center justify-center py-4" onclick="socialLogin('Apple')">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1a1a1a">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                    </button>
+                    <button class="btn-secondary flex items-center justify-center py-4" onclick="socialLogin('Facebook')">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877F2">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Register Link -->
+            <p class="text-center text-sky-600 text-sm mt-8 animate-in delay-2">
+                Belum punya akun? 
+                <button onclick="showRegister()" class="text-sky-500 font-bold hover:underline">Daftar Sekarang</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN APP ==================== -->
+    <div id="mainApp" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4">
+            <div class="card-static px-5 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="avatar-ring">
+                        <img src="https://i.pravatar.cc/100?img=68" alt="Nanda" class="w-12 h-12 rounded-full object-cover">
+                    </div>
+                    <div>
+                        <p class="text-sky-400 text-xs font-medium">Selamat datang,</p>
+                        <h3 class="font-bold text-sky-900 text-lg">Nanda Arianto</h3>
+                    </div>
+                </div>
+                <button class="btn-icon relative" onclick="openNotifications()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-orange-500 text-white text-xs flex items-center justify-center font-bold">3</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="px-5 space-y-6" id="homeContent"></div>
+    </div>
+
+    <!-- ==================== EXPLORE PAGE ==================== -->
+    <div id="explorePage" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4">
+            <div class="card-static px-5 py-4">
+                <h1 class="font-display text-2xl font-bold text-sky-900 mb-4">Jelajahi Destinasi</h1>
+                <div class="flex items-center gap-3">
+                    <div class="flex-1 relative">
+                        <svg class="absolute left-5 top-1/2 -translate-y-1/2 text-sky-400" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <input type="text" id="searchInput" class="input-field" placeholder="Cari pantai, gunung, kota..." oninput="handleSearch()">
+                    </div>
+                    <button class="btn-icon" onclick="openFilters()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Filter Chips -->
+                <div class="flex gap-2 mt-4 overflow-x-auto pb-1 -mx-1 px-1" id="filterChips"></div>
+            </div>
+        </header>
+        <div class="px-5" id="exploreContent"></div>
+    </div>
+
+    <!-- ==================== BOOKING PAGE ==================== -->
+    <div id="bookingPage" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4">
+            <div class="card-static px-5 py-4">
+                <h1 class="font-display text-2xl font-bold text-sky-900">Pemesanan Saya</h1>
+            </div>
+        </header>
+        <div class="px-5" id="bookingContent"></div>
+    </div>
+
+    <!-- ==================== CHAT PAGE ==================== -->
+    <div id="chatPage" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4">
+            <div class="card-static px-5 py-4">
+                <h1 class="font-display text-2xl font-bold text-sky-900">Pesan</h1>
+            </div>
+        </header>
+        <div class="px-5" id="chatContent"></div>
+    </div>
+
+    <!-- ==================== PROFILE PAGE ==================== -->
+    <div id="profilePage" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4">
+            <div class="card-static px-5 py-4 flex items-center justify-between">
+                <h1 class="font-display text-2xl font-bold text-sky-900">Profil</h1>
+                <button class="btn-icon" onclick="openSettings()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+        <div class="px-5" id="profileContent"></div>
+    </div>
+
+    <!-- ==================== BOTTOM NAVIGATION ==================== -->
+    <nav id="bottomNav" class="bottom-nav hidden">
+        <div class="nav-container">
+            <div class="flex items-center justify-around">
+                <button class="nav-item active" data-page="mainApp" onclick="navigate('mainApp')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span>Home</span>
+                </button>
+                <button class="nav-item" data-page="explorePage" onclick="navigate('explorePage')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                    </svg>
+                    <span>Explore</span>
+                </button>
+                <button class="nav-item" data-page="bookingPage" onclick="navigate('bookingPage')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    <span>Booking</span>
+                </button>
+                <button class="nav-item" data-page="chatPage" onclick="navigate('chatPage')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>Chat</span>
+                </button>
+                <button class="nav-item" data-page="profilePage" onclick="navigate('profilePage')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Profil</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== MODALS ==================== -->
+    
+    <!-- Destination Detail Modal (with Itinerary Preview) -->
+    <div id="destDetailModal" class="modal-overlay" onclick="closeOnOverlay(event, 'destDetailModal')">
+        <div class="modal-content">
+            <div class="relative">
+                <img id="destDetailImg" src="" alt="" class="w-full h-56 object-cover">
+                <button class="absolute top-4 right-4 btn-icon bg-white/90 backdrop-blur" onclick="closeModal('destDetailModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <h2 id="destDetailTitle" class="font-display text-2xl font-bold text-sky-900 mb-1"></h2>
+                        <p id="destDetailLocation" class="text-sky-500 flex items-center gap-1">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span id="destDetailLocText"></span>
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-1 bg-amber-50 px-3 py-1 rounded-full">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        <span id="destDetailRating" class="font-bold text-amber-600 text-sm"></span>
+                    </div>
+                </div>
+                
+                <p id="destDetailDesc" class="text-sky-600 mb-6"></p>
+                
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-50">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <span id="destDetailDuration" class="font-semibold text-sky-700"></span>
+                    </div>
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-50">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                        <span id="destDetailCategory" class="font-semibold text-sky-700"></span>
+                    </div>
+                </div>
+                
+                <!-- Itinerary Preview -->
+                <div class="mb-6">
+                    <h3 class="font-bold text-sky-900 mb-3 flex items-center gap-2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        Rencana Perjalanan
+                    </h3>
+                    <div id="destDetailItinerary" class="space-y-3"></div>
+                </div>
+                
+                <div class="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-sky-50 to-sky-100 mb-6">
+                    <div>
+                        <p class="text-sky-500 text-sm">Harga mulai dari</p>
+                        <p id="destDetailPrice" class="text-2xl font-bold text-sky-600"></p>
+                    </div>
+                    <button class="btn-primary" onclick="closeModal('destDetailModal'); bookDestination(currentDestId)">
+                        Book Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Itinerary Modal (for Active Trip) -->
+    <div id="itineraryModal" class="modal-overlay" onclick="closeOnOverlay(event, 'itineraryModal')">
+        <div class="modal-content p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="font-display text-xl font-bold text-sky-900">Itinerary Perjalanan</h2>
+                    <p class="text-sky-500 text-sm">Bali Cultural Trip</p>
+                </div>
+                <button class="btn-icon" onclick="closeModal('itineraryModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="itineraryContent"></div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal-overlay" onclick="closeOnOverlay(event, 'bookingModal')">
+        <div class="modal-content p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display text-xl font-bold text-sky-900">Konfirmasi Booking</h2>
+                <button class="btn-icon" onclick="closeModal('bookingModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="rounded-2xl overflow-hidden mb-6">
+                <img id="modalImg" src="" alt="Destination" class="w-full h-48 object-cover">
+            </div>
+            
+            <h3 id="modalTitle" class="font-bold text-xl text-sky-900 mb-1"></h3>
+            <p id="modalDesc" class="text-sky-500 text-sm mb-6"></p>
+            
+            <div class="space-y-4 mb-6">
+                <div class="flex justify-between py-4 border-b border-sky-100">
+                    <span class="text-sky-500 font-medium">Tanggal Keberangkatan</span>
+                    <span class="font-bold text-sky-900">20-24 Des 2024</span>
+                </div>
+                <div class="flex justify-between py-4 border-b border-sky-100">
+                    <span class="text-sky-500 font-medium">Jumlah Peserta</span>
+                    <div class="flex items-center gap-3">
+                        <button class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 font-bold hover:bg-sky-200 transition-colors" onclick="changeQty(-1)">-</button>
+                        <span id="qtyCount" class="font-bold text-lg w-8 text-center">2</span>
+                        <button class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 font-bold hover:bg-sky-200 transition-colors" onclick="changeQty(1)">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between py-4">
+                    <span class="text-sky-500 font-medium">Total Pembayaran</span>
+                    <span id="totalPrice" class="text-2xl font-bold text-sky-600"></span>
+                </div>
+            </div>
+
+            <button class="btn-primary w-full" onclick="confirmBooking()">
+                <span>Konfirmasi & Bayar</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Ticket Modal -->
+    <div id="ticketModal" class="modal-overlay" onclick="closeOnOverlay(event, 'ticketModal')">
+        <div class="modal-content p-6">
+            <div class="text-center mb-6">
+                <h2 class="font-display text-xl font-bold text-sky-900">E-Ticket</h2>
+                <p class="text-sky-500 text-sm">Tunjukkan tiket ini saat check-in</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-sky-500 to-sky-700 rounded-3xl p-5 mb-6 text-white">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-sky-200 text-xs uppercase tracking-wider">Booking ID</p>
+                        <p class="font-bold text-lg">TPZ-2024-1215</p>
+                    </div>
+                    <div class="w-16 h-16 rounded-xl overflow-hidden bg-white p-1">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=TPZ-2024-1215" alt="QR" class="w-full h-full">
+                    </div>
+                </div>
+                
+                <div class="border-t border-sky-400/50 pt-4 mb-4">
+                    <h3 class="font-bold text-xl mb-1">Bali Cultural Trip</h3>
+                    <p class="text-sky-200">3D2N - Ubud, Tanah Lot, Tegallalang</p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-sky-200 text-xs">Tanggal</p>
+                        <p class="font-semibold">15-17 Des 2024</p>
+                    </div>
+                    <div>
+                        <p class="text-sky-200 text-xs">Peserta</p>
+                        <p class="font-semibold">2 Orang</p>
+                    </div>
+                    <div>
+                        <p class="text-sky-200 text-xs">Meeting Point</p>
+                        <p class="font-semibold">Bandara Ngurah Rai</p>
+                    </div>
+                    <div>
+                        <p class="text-sky-200 text-xs">Guide</p>
+                        <p class="font-semibold">Tomi Ariyanto</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-primary w-full mb-3" onclick="closeModal('ticketModal'); openItinerary()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                <span>Lihat Itinerary</span>
+            </button>
+            
+            <button class="btn-secondary w-full" onclick="closeModal('ticketModal')">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div id="notifModal" class="modal-overlay" onclick="closeOnOverlay(event, 'notifModal')">
+        <div class="modal-content p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display text-xl font-bold text-sky-900">Notifikasi</h2>
+                <button class="btn-icon" onclick="closeModal('notifModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-3" id="notifList"></div>
+        </div>
+    </div>
+
+    <!-- Chat Detail Modal -->
+    <div id="chatModal" class="modal-overlay" onclick="closeOnOverlay(event, 'chatModal')">
+        <div class="modal-content flex flex-col max-h-[92vh]">
+            <div class="p-4 border-b border-sky-100 flex items-center gap-3">
+                <button class="btn-icon" onclick="closeModal('chatModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                </button>
+                <div class="avatar-ring">
+                    <img id="chatAvatar" src="" alt="Avatar" class="w-11 h-11 rounded-full object-cover">
+                </div>
+                <div>
+                    <h3 id="chatName" class="font-bold text-sky-900"></h3>
+                    <p class="text-xs text-green-500 flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                        Online
+                    </p>
+                </div>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto space-y-3 min-h-[300px]" id="chatMessages"></div>
+            <div class="p-4 border-t border-sky-100">
+                <div class="flex items-center gap-3">
+                    <input type="text" id="chatInput" class="input-field pl-4" placeholder="Ketik pesan..." onkeypress="handleChatEnter(event)">
+                    <button class="btn-primary px-4" onclick="sendChat()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div id="filterModal" class="modal-overlay" onclick="closeOnOverlay(event, 'filterModal')">
+        <div class="modal-content p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display text-xl font-bold text-sky-900">Filter Destinasi</h2>
+                <button class="btn-icon" onclick="closeModal('filterModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-5">
+                <div>
+                    <label class="text-sm font-bold text-sky-700 mb-3 block">Kategori</label>
+                    <div class="flex flex-wrap gap-2" id="filterCategoryBtns"></div>
+                </div>
+                
+                <div>
+                    <label class="text-sm font-bold text-sky-700 mb-3 block">Rentang Harga</label>
+                    <div class="flex gap-3">
+                        <input type="text" id="priceMin" class="input-field pl-4" placeholder="Min" value="">
+                        <input type="text" id="priceMax" class="input-field pl-4" placeholder="Max" value="">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="text-sm font-bold text-sky-700 mb-3 block">Durasi</label>
+                    <div class="flex gap-2" id="filterDurationBtns">
+                        <button class="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-300" onclick="selectDuration('1-3')">1-3 Hari</button>
+                        <button class="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-300" onclick="selectDuration('3-7')">3-7 Hari</button>
+                        <button class="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-300" onclick="selectDuration('7+')">7+ Hari</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex gap-3 mt-8">
+                <button class="flex-1 btn-secondary" onclick="resetFilters()">Reset</button>
+                <button class="flex-1 btn-primary" onclick="applyFilters()">Terapkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal-overlay" onclick="closeOnOverlay(event, 'paymentModal')">
+        <div class="modal-content p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display text-xl font-bold text-sky-900">Pilih Pembayaran</h2>
+                <button class="btn-icon" onclick="closeModal('paymentModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-3 mb-6">
+                <button class="w-full card-static p-4 flex items-center gap-4 hover:bg-sky-50 transition-colors" onclick="selectPayment('gopay')">
+                    <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                        <span class="font-bold text-green-600">GP</span>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <p class="font-bold text-sky-900">GoPay</p>
+                        <p class="text-xs text-sky-500">Saldo: Rp 2.500.000</p>
+                    </div>
+                    <div class="w-5 h-5 rounded-full border-2 border-sky-300"></div>
+                </button>
+                
+                <button class="w-full card-static p-4 flex items-center gap-4 hover:bg-sky-50 transition-colors" onclick="selectPayment('ovo')">
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
+                        <span class="font-bold text-purple-600">OVO</span>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <p class="font-bold text-sky-900">OVO</p>
+                        <p class="text-xs text-sky-500">Saldo: Rp 1.850.000</p>
+                    </div>
+                    <div class="w-5 h-5 rounded-full border-2 border-sky-300"></div>
+                </button>
+                
+                <button class="w-full card-static p-4 flex items-center gap-4 hover:bg-sky-50 transition-colors" onclick="selectPayment('dana')">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                        <span class="font-bold text-blue-600">DANA</span>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <p class="font-bold text-sky-900">DANA</p>
+                        <p class="text-xs text-sky-500">Saldo: Rp 3.200.000</p>
+                    </div>
+                    <div class="w-5 h-5 rounded-full border-2 border-sky-300"></div>
+                </button>
+                
+                <button class="w-full card-static p-4 flex items-center gap-4 hover:bg-sky-50 transition-colors" onclick="selectPayment('va')">
+                    <div class="w-12 h-12 rounded-xl bg-sky-100 flex items-center justify-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2"/>
+                            <line x1="1" y1="10" x2="23" y2="10"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <p class="font-bold text-sky-900">Virtual Account</p>
+                        <p class="text-xs text-sky-500">BCA, BNI, Mandiri, BRI</p>
+                    </div>
+                    <div class="w-5 h-5 rounded-full border-2 border-sky-300"></div>
+                </button>
+            </div>
+            
+            <button class="btn-primary w-full" onclick="processPayment()">Bayar Sekarang</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay" onclick="closeOnOverlay(event, 'successModal')">
+        <div class="modal-content p-6 text-center">
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-green-100 flex items-center justify-center">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3">
+                    <path d="M20 6L9 17l-5-5"/>
+                </svg>
+            </div>
+            <h2 class="font-display text-2xl font-bold text-sky-900 mb-3">Pembayaran Berhasil!</h2>
+            <p class="text-sky-600 mb-6">Trip Anda sudah dikonfirmasi. Siap-siap berpetualang!</p>
+            
+            <div class="card-static p-4 mb-6 text-left">
+                <div class="flex justify-between mb-2">
+                    <span class="text-sky-500 text-sm">Booking ID</span>
+                    <span class="font-bold text-sky-900">TPZ-2024-1220</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-sky-500 text-sm">Total</span>
+                    <span class="font-bold text-green-600">Rp 19.500.000</span>
+                </div>
+            </div>
+            
+            <button class="btn-primary w-full" onclick="closeModal('successModal'); navigate('bookingPage')">
+                Lihat Tiket Saya
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DATA ====================
+        const activeTrip = {
+            id: 'bali-cultural',
+            name: 'Bali Cultural Trip',
+            location: 'Bali',
+            image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&h=400&fit=crop',
+            duration: '3D2N',
+            date: '15-17 Desember 2024',
+            price: 4500000,
+            participants: 8,
+            guide: 'Tomi Ariyanto',
+            status: 'active',
+            itinerary: [
+                {
+                    day: 1,
+                    date: '15 Desember 2024',
+                    title: 'Arrival & Welcome',
+                    activities: [
+                        { time: '08:00', title: 'Pick-up Bandara Ngurah Rai', location: 'Denpasar', icon: 'plane' },
+                        { time: '10:00', title: 'Check-in Hotel & Rest', location: 'Ubud', icon: 'hotel' },
+                        { time: '12:00', title: 'Makan Siang - Bebek Bengil', location: 'Ubud', icon: 'food' },
+                        { time: '15:00', title: 'Visit Tegallalang Rice Terrace', location: 'Tegallalang', icon: 'camera' },
+                        { time: '18:00', title: 'Dinner & Cultural Show', location: 'Ubud Palace', icon: 'food' }
+                    ]
+                },
+                {
+                    day: 2,
+                    date: '16 Desember 2024',
+                    title: 'Bali Heritage Tour',
+                    activities: [
+                        { time: '06:00', title: 'Sunrise at Tanah Lot Temple', location: 'Tabanan', icon: 'sun' },
+                        { time: '09:00', title: 'Breakfast', location: 'Hotel', icon: 'food' },
+                        { time: '11:00', title: 'Visit Tirta Empul Temple', location: 'Tampaksiring', icon: 'temple' },
+                        { time: '13:00', title: 'Makan Siang - Warung Babi Guling', location: 'Gianyar', icon: 'food' },
+                        { time: '15:00', title: 'Ubud Art Market & Monkey Forest', location: 'Ubud', icon: 'shopping' },
+                        { time: '19:00', title: 'Dinner - Jimbaran Beach', location: 'Jimbaran', icon: 'food' }
+                    ]
+                },
+                {
+                    day: 3,
+                    date: '17 Desember 2024',
+                    title: 'Departure',
+                    activities: [
+                        { time: '07:00', title: 'Breakfast & Check-out', location: 'Hotel', icon: 'hotel' },
+                        { time: '09:00', title: 'Souvenir Shopping', location: 'Krisna Oleh-Oleh', icon: 'shopping' },
+                        { time: '12:00', title: 'Transfer to Airport', location: 'Bandara Ngurah Rai', icon: 'plane' }
+                    ]
+                }
+            ]
+        };
+
+        const destinations = [
+            { 
+                id: 'raja-ampat', 
+                name: 'Raja Ampat', 
+                location: 'Papua Barat', 
+                image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&h=400&fit=crop', 
+                rating: 4.9, 
+                price: 15000000, 
+                duration: '5D4N', 
+                category: 'Pantai', 
+                desc: 'Surga bawah laut dengan keindahan alam yang memukau',
+                itinerary: [
+                    { day: 1, title: 'Arrival & Welcome Dinner', highlights: ['Pick-up Airport', 'Check-in Resort', 'Sunset Dinner'] },
+                    { day: 2, title: 'Island Hopping', highlights: ['Wayag Island', 'Hidden Lagoon', 'Snorkeling'] },
+                    { day: 3, title: 'Diving Adventure', highlights: ['Cape Kri', 'Manta Point', 'Night Dive'] },
+                    { day: 4, title: 'Cultural Tour', highlights: ['Local Village', 'Traditional Dance', 'Handicraft'] },
+                    { day: 5, title: 'Departure', highlights: ['Free Time', 'Souvenir Shopping', 'Transfer Airport'] }
+                ]
+            },
+            { 
+                id: 'bromo', 
+                name: 'Gunung Bromo', 
+                location: 'Jawa Timur', 
+                image: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=600&h=400&fit=crop', 
+                rating: 4.8, 
+                price: 3500000, 
+                duration: '2D1N', 
+                category: 'Gunung', 
+                desc: 'Sunrise spektakuler di kawah gunung berapi aktif',
+                itinerary: [
+                    { day: 1, title: 'Arrival & Sunset', highlights: ['Pick-up Surabaya', 'Jeep Adventure', 'Penanjakan Sunset'] },
+                    { day: 2, title: 'Sunrise & Explore', highlights: ['Sunrise Point', 'Bromo Crater', 'Whispering Savanna'] }
+                ]
+            },
+            { 
+                id: 'komodo', 
+                name: 'Pulau Komodo', 
+                location: 'NTT', 
+                image: 'https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=600&h=400&fit=crop', 
+                rating: 4.9, 
+                price: 8500000, 
+                duration: '4D3N', 
+                category: 'Adventure', 
+                desc: 'Bertemu komodo raksasa habitat aslinya',
+                itinerary: [
+                    { day: 1, title: 'Welcome to Labuan Bajo', highlights: ['Airport Pickup', 'Hotel Check-in', 'Sunset Point'] },
+                    { day: 2, title: 'Komodo Island', highlights: ['Komodo Trekking', 'Pink Beach', 'Snorkeling'] },
+                    { day: 3, title: 'Padar & Rinca', highlights: ['Padar Sunrise', 'Rinca Island', 'Flying Fox'] },
+                    { day: 4, title: 'Departure', highlights: ['Morning Swim', 'Bat Cave', 'Transfer Airport'] }
+                ]
+            },
+            { 
+                id: 'bunaken', 
+                name: 'Bunaken', 
+                location: 'Sulawesi Utara', 
+                image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=400&fit=crop', 
+                rating: 4.7, 
+                price: 5500000, 
+                duration: '3D2N', 
+                category: 'Pantai', 
+                desc: 'Taman laut dengan biodiversitas tertinggi di dunia',
+                itinerary: [
+                    { day: 1, title: 'Arrival & Introduction', highlights: ['Pick-up Manado', 'Boat to Bunaken', 'Welcome Dive'] },
+                    { day: 2, title: 'Full Day Diving', highlights: ['Bunaken Wall', 'Turtle Point', 'Night Snorkeling'] },
+                    { day: 3, title: 'Island Tour & Departure', highlights: ['Village Visit', 'Beach BBQ', 'Return Manado'] }
+                ]
+            },
+            { 
+                id: 'yogyakarta', 
+                name: 'Yogyakarta Heritage', 
+                location: 'Yogyakarta', 
+                image: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=600&h=400&fit=crop', 
+                rating: 4.6, 
+                price: 2500000, 
+                duration: '2D1N', 
+                category: 'Budaya', 
+                desc: 'Keajaiban candi Borobudur dan Prambanan',
+                itinerary: [
+                    { day: 1, title: 'Temple Exploration', highlights: ['Borobudur Sunrise', 'Mendut Temple', 'Prambanan Sunset'] },
+                    { day: 2, title: 'Cultural Immersion', highlights: ['Keraton Palace', 'Batik Workshop', 'Malioboro'] }
+                ]
+            },
+            { 
+                id: 'toraja', 
+                name: 'Tana Toraja', 
+                location: 'Sulawesi Selatan', 
+                image: 'https://images.unsplash.com/photo-1604999333679-b86d54738315?w=600&h=400&fit=crop', 
+                rating: 4.8, 
+                price: 4500000, 
+                duration: '3D2N', 
+                category: 'Budaya', 
+                desc: 'Upacara pemakaman unik dan rumah adat Tongkonan',
+                itinerary: [
+                    { day: 1, title: 'Arrival & Orientation', highlights: ['Airport Pickup', 'Tongkonan Village', 'Traditional Dinner'] },
+                    { day: 2, title: 'Cultural Discovery', highlights: ['Kete Kesu', 'Burial Caves', 'Buffalo Market'] },
+                    { day: 3, title: 'Nature & Departure', highlights: ['Lemo Grave', 'Rice Terraces', 'Transfer Airport'] }
+                ]
+            },
+            { 
+                id: 'labuan-bajo', 
+                name: 'Labuan Bajo', 
+                location: 'NTT', 
+                image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&h=400&fit=crop', 
+                rating: 4.9, 
+                price: 12500000, 
+                duration: '5D4N', 
+                category: 'Pantai', 
+                desc: 'Gerbang menuju taman nasional Komodo',
+                itinerary: [
+                    { day: 1, title: 'Welcome Aboard', highlights: ['Harbor Check-in', 'Phinisi Boat', 'Sunset Cruise'] },
+                    { day: 2, title: 'Komodo National Park', highlights: ['Komodo Island', 'Pink Beach', 'Manta Point'] },
+                    { day: 3, title: 'Hidden Gems', highlights: ['Padar Island', 'Gili Lawa', 'Stargazing'] },
+                    { day: 4, title: 'Water Adventure', highlights: ['Kanawa Island', 'Snorkeling', 'Beach BBQ'] },
+                    { day: 5, title: 'Last Day', highlights: ['Morning Swim', 'Mirror Stone Cave', 'Departure'] }
+                ]
+            }
+        ];
+
+        const categories = ['Semua', 'Pantai', 'Gunung', 'Budaya', 'Adventure'];
+        
+        const durations = ['1-3', '3-7', '7+'];
+
+        const notifications = [
+            { id: 1, title: 'Trip Dimulai Besok!', message: 'Bali Cultural Trip - Jangan lupa packing!', time: '1 jam lalu', type: 'warning' },
+            { id: 2, title: 'Guide Menghubungi', message: 'Tomi Ariyanto mengirim pesan baru', time: '3 jam lalu', type: 'success' },
+            { id: 3, title: 'Promo Spesial!', message: 'Diskon 25% untuk trip ke Raja Ampat', time: '1 hari lalu', type: 'promo' }
+        ];
+
+        const chatContacts = [
+            { id: 1, name: 'Tomi Ariyanto', role: 'Guide', avatar: 'https://i.pravatar.cc/100?img=12', lastMsg: 'Baik Nanda, sampai ketemu besok ya!', time: '10:30', unread: 2, online: true },
+            { id: 2, name: 'TRIPZY Support', role: 'Customer Service', avatar: 'https://i.pravatar.cc/100?img=68', lastMsg: 'Terima kasih telah menghubungi!', time: 'Kemarin', unread: 0, online: false }
+        ];
+
+        const chatHistory = [
+            { sender: 'them', msg: 'Halo Nanda! Saya Tomi, guide untuk trip Bali Cultural 🌺', time: '10:00' },
+            { sender: 'me', msg: 'Halo Tom! Saya sangat excited untuk trip ini!', time: '10:15' },
+            { sender: 'them', msg: 'Persiapan sudah semua? Jangan lupa bawa sunblock, topi, dan pakaian renang ya ☀️', time: '10:20' },
+            { sender: 'me', msg: 'Sudah siap semua! Meeting point di mana ya?', time: '10:25' },
+            { sender: 'them', msg: 'Baik Nanda, sampai ketemu besok ya!', time: '10:30' }
+        ];
+
+        const upcomingTours = [
+            { id: 'bali-newyear', name: 'Bali New Year Escape', date: '31 Des - 2 Jan', price: 6500000, spots: 5, img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=200&h=200&fit=crop' },
+            { id: 'lombok-trip', name: 'Lombok Adventure', date: '5-8 Januari', price: 5200000, spots: 12, img: 'https://images.unsplash.com/photo-1570789210967-2cac24261987?w=200&h=200&fit=crop' }
+        ];
+
+        // ==================== STATE ====================
+        let selectedDest = null;
+        let currentDestId = null;
+        let qty = 2;
+        let activeFilter = {
+            category: 'Semua',
+            duration: null,
+            minPrice: null,
+            maxPrice: null
+        };
+
+        // ==================== LOGIN ====================
+        function togglePassword() {
+            const input = document.getElementById('loginPassword');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+            } else {
+                input.type = 'password';
+                icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+            }
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+            
+            if (!email || !pass) {
+                showToast('Mohon isi email dan password', 'warning');
+                return;
+            }
+            
+            showToast('Login berhasil! Selamat datang Nanda!', 'success');
+            
+            setTimeout(() => {
+                document.getElementById('loginPage').classList.remove('active');
+                document.getElementById('mainApp').classList.add('active');
+                document.getElementById('bottomNav').classList.remove('hidden');
+                renderHome();
+            }, 500);
+        }
+
+        function socialLogin(provider) {
+            showToast(`Login dengan ${provider} berhasil!`, 'success');
+            setTimeout(handleLogin, 300);
+        }
+
+        function showRegister() {
+            showToast('Fitur registrasi akan segera hadir!', 'warning');
+        }
+
+        function handleLogout() {
+            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
+            document.getElementById('bottomNav').classList.add('hidden');
+            document.getElementById('loginPage').classList.add('active');
+            showToast('Anda telah keluar dari TRIPZY', 'success');
+        }
+
+        // ==================== NAVIGATION ====================
+        function navigate(pageId) {
+            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const navBtn = document.querySelector(`.nav-item[data-page="${pageId}"]`);
+            if (navBtn) navBtn.classList.add('active');
+            
+            if (pageId === 'mainApp') renderHome();
+            else if (pageId === 'explorePage') renderExplore();
+            else if (pageId === 'bookingPage') renderBooking();
+            else if (pageId === 'chatPage') renderChat();
+            else if (pageId === 'profilePage') renderProfile();
+        }
+
+        // ==================== RENDER HOME ====================
+        function renderHome() {
+            const container = document.getElementById('homeContent');
+            container.innerHTML = `
+                <!-- Search Bar -->
+                <div class="card-static p-2 flex items-center gap-3 animate-in">
+                    <svg class="text-sky-400 ml-4" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input type="text" class="flex-1 bg-transparent border-none outline-none text-sky-900 placeholder:text-sky-400 py-2 font-medium" placeholder="Ke mana ingin pergi?" onclick="navigate('explorePage')" readonly>
+                    <button class="w-11 h-11 rounded-xl bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-lg shadow-sky-500/30">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M3 4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4zM3 10a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10zM15 9a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V10a1 1 0 0 0-1-1h-4z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Active Trip - HIGHLIGHTED -->
+                <div class="animate-in delay-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="font-bold text-xl text-sky-900">Perjalanan Aktif</h2>
+                        <span class="badge badge-green">ONGOING</span>
+                    </div>
+                    <div class="card overflow-hidden border-2 border-sky-400" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+                        <div class="relative">
+                            <img src="${activeTrip.image}" alt="${activeTrip.name}" class="w-full h-44 object-cover">
+                            <div class="absolute top-3 left-3">
+                                <span class="badge badge-sky">${activeTrip.date}</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-xl text-sky-900 mb-1">${activeTrip.name}</h3>
+                            <p class="text-sky-600 text-sm mb-4">${activeTrip.duration} - ${activeTrip.location}</p>
+                            
+                            <div class="flex items-center gap-3 mb-5 p-3 rounded-xl bg-white/70">
+                                <div class="avatar-ring">
+                                    <img src="https://i.pravatar.cc/40?img=12" alt="Guide" class="w-10 h-10 rounded-full">
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-xs text-sky-500">Guide</p>
+                                    <p class="font-semibold text-sky-900">${activeTrip.guide}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-sky-500">Peserta</p>
+                                    <p class="font-semibold text-sky-900">${activeTrip.participants} orang</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <button class="flex-1 btn-secondary text-sm py-3" onclick="openModal('ticketModal')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="inline mr-1">
+                                        <path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 002 2 2 2 0 012 2v3a2 2 0 01-2 2 2 2 0 01-2-2v-3a2 2 0 012-2 2 2 0 002-2V7a2 2 0 00-2-2z"/>
+                                    </svg>
+                                    Tiket
+                                </button>
+                                <button class="flex-1 btn-primary text-sm py-3" onclick="openItinerary()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="inline mr-1">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                    </svg>
+                                    Itinerary
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promo Banner -->
+                <div class="animate-in delay-2">
+                    <div class="dest-card aspect-[16/9]">
+                        <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&h=450&fit=crop" alt="Promo" class="w-full h-full object-cover">
+                        <div class="dest-overlay">
+                            <span class="badge badge-coral mb-2">Hemat 22%</span>
+                            <h3 class="font-display text-xl font-bold text-white mb-1">Labuan Bajo Escape</h3>
+                            <p class="text-white/80 text-sm mb-3">5D4N - Pulau Komodo, Pink Beach</p>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-white/50 text-sm line-through">Rp 15.000.000</span>
+                                    <p class="text-2xl font-bold text-white">Rp 11.750.000</p>
+                                </div>
+                                <button class="btn-primary btn-coral py-2 px-5 text-sm" onclick="openDestDetail('labuan-bajo')">Lihat Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Destinations -->
+                <div class="animate-in delay-3">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="font-bold text-xl text-sky-900">Destinasi Populer</h2>
+                        <button class="text-sky-500 font-semibold text-sm" onclick="navigate('explorePage')">Lihat Semua</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        ${destinations.slice(0, 4).map(d => `
+                            <div class="card overflow-hidden cursor-pointer" onclick="openDestDetail('${d.id}')">
+                                <div class="aspect-[4/3] overflow-hidden relative">
+                                    <img src="${d.image}" alt="${d.name}" class="w-full h-full object-cover">
+                                    <div class="absolute top-2 right-2 px-2 py-1 rounded-lg bg-white/90 backdrop-blur text-xs font-bold flex items-center gap-1">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                        </svg>
+                                        ${d.rating}
+                                    </div>
+                                </div>
+                                <div class="p-3">
+                                    <h3 class="font-bold text-sm text-sky-900 mb-1">${d.name}</h3>
+                                    <p class="text-sky-500 text-xs mb-2">${d.location}</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sky-600 font-bold text-sm">${formatPrice(d.price)}</span>
+                                        <span class="text-sky-400 text-xs">${d.duration}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Upcoming Tours -->
+                <div class="animate-in delay-4 pb-4">
+                    <h2 class="font-bold text-xl text-sky-900 mb-4">Tour Mendatang</h2>
+                    <div class="space-y-3">
+                        ${upcomingTours.map(t => `
+                            <div class="card p-4 flex items-center gap-4 cursor-pointer" onclick="openDestDetail('${t.id}')">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                                    <img src="${t.img}" alt="${t.name}" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-sky-900">${t.name}</h3>
+                                    <p class="text-sky-500 text-sm">${t.date}</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="text-sky-600 font-bold">${formatPrice(t.price)}</span>
+                                        <span class="text-xs text-green-600 font-semibold">${t.spots} spot tersisa</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== RENDER EXPLORE ====================
+        function renderExplore() {
+            renderFilterChips();
+            applyFiltersAndRender();
+        }
+
+        function renderFilterChips() {
+            const container = document.getElementById('filterChips');
+            if (!container) return;
+            
+            container.innerHTML = categories.map(cat => `
+                <button class="filter-chip flex-shrink-0 ${activeFilter.category === cat ? 'active' : ''}" onclick="quickFilter('${cat}')">${cat}</button>
+            `).join('');
+        }
+
+        function quickFilter(cat) {
+            activeFilter.category = cat;
+            renderFilterChips();
+            applyFiltersAndRender();
+        }
+
+        function applyFiltersAndRender() {
+            let filtered = [...destinations];
+            
+            // Category filter
+            if (activeFilter.category !== 'Semua') {
+                filtered = filtered.filter(d => d.category === activeFilter.category);
+            }
+            
+            // Duration filter
+            if (activeFilter.duration) {
+                filtered = filtered.filter(d => {
+                    const days = parseInt(d.duration);
+                    if (activeFilter.duration === '1-3') return days <= 3;
+                    if (activeFilter.duration === '3-7') return days > 3 && days <= 7;
+                    if (activeFilter.duration === '7+') return days > 7;
+                    return true;
+                });
+            }
+            
+            // Price filter
+            if (activeFilter.minPrice) {
+                filtered = filtered.filter(d => d.price >= activeFilter.minPrice);
+            }
+            if (activeFilter.maxPrice) {
+                filtered = filtered.filter(d => d.price <= activeFilter.maxPrice);
+            }
+            
+            renderExploreList(filtered);
+        }
+
+        function renderExploreList(list) {
+            const container = document.getElementById('exploreContent');
+            if (!container) return;
+            
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" class="mx-auto mb-4">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <h3 class="font-bold text-sky-900 mb-2">Tidak ada hasil</h3>
+                        <p class="text-sky-500 text-sm">Coba ubah filter pencarian Anda</p>
+                        <button class="btn-secondary mt-4" onclick="resetFilters()">Reset Filter</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <p class="text-sky-500 text-sm mb-4">${list.length} destinasi ditemukan</p>
+                <div class="space-y-4">
+                    ${list.map(d => `
+                        <div class="card overflow-hidden cursor-pointer" onclick="openDestDetail('${d.id}')">
+                            <div class="flex">
+                                <div class="w-28 h-28 flex-shrink-0">
+                                    <img src="${d.image}" alt="${d.name}" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 p-4">
+                                    <h3 class="font-bold text-sky-900 mb-1">${d.name}</h3>
+                                    <p class="text-sky-500 text-sm mb-1">${d.location}</p>
+                                    <p class="text-sky-400 text-xs mb-2">${d.duration} - ${d.category}</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sky-600 font-bold">${formatPrice(d.price)}</span>
+                                        <span class="flex items-center gap-1 text-sm">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2">
+                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                            </svg>
+                                            ${d.rating}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // ==================== DESTINATION DETAIL ====================
+        function openDestDetail(id) {
+            const dest = destinations.find(d => d.id === id);
+            if (!dest) return;
+            
+            currentDestId = id;
+            
+            document.getElementById('destDetailImg').src = dest.image;
+            document.getElementById('destDetailTitle').textContent = dest.name;
+            document.getElementById('destDetailLocText').textContent = dest.location;
+            document.getElementById('destDetailRating').textContent = dest.rating;
+            document.getElementById('destDetailDesc').textContent = dest.desc;
+            document.getElementById('destDetailDuration').textContent = dest.duration;
+            document.getElementById('destDetailCategory').textContent = dest.category;
+            document.getElementById('destDetailPrice').textContent = formatPrice(dest.price);
+            
+            // Render itinerary preview
+            const itinContainer = document.getElementById('destDetailItinerary');
+            itinContainer.innerHTML = dest.itinerary.map(day => `
+                <div class="flex gap-3 p-3 rounded-xl bg-sky-50/50">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
+                        D${day.day}
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sky-900 text-sm">${day.title}</h4>
+                        <ul class="text-xs text-sky-500 mt-1">
+                            ${day.highlights.map(h => `<li class="flex items-center gap-1"><span class="w-1 h-1 rounded-full bg-sky-400"></span>${h}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
+            
+            openModal('destDetailModal');
+        }
+
+        // ==================== RENDER BOOKING ====================
+        function renderBooking() {
+            const container = document.getElementById('bookingContent');
+            container.innerHTML = `
+                <!-- Tabs -->
+                <div class="flex gap-3 mb-5">
+                    <button id="tabAktif" class="flex-1 py-3 rounded-xl bg-sky-500 text-white font-bold text-sm" onclick="switchBookingTab('aktif')">Aktif</button>
+                    <button id="tabRiwayat" class="flex-1 py-3 rounded-xl bg-white border-2 border-sky-100 text-sky-600 font-bold text-sm" onclick="switchBookingTab('riwayat')">Riwayat</button>
+                </div>
+                
+                <!-- Active Bookings -->
+                <div id="bookingAktif" class="space-y-4">
+                    <div class="card overflow-hidden border-2 border-sky-400">
+                        <img src="${activeTrip.image}" alt="${activeTrip.name}" class="w-full h-40 object-cover">
+                        <div class="p-5">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <span class="badge badge-green mb-2">Confirmed</span>
+                                    <h3 class="font-bold text-lg text-sky-900">${activeTrip.name}</h3>
+                                    <p class="text-sky-500 text-sm">${activeTrip.date}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-3 mb-5 p-3 rounded-xl bg-sky-50">
+                                <div class="avatar-ring">
+                                    <img src="https://i.pravatar.cc/40?img=12" alt="Guide" class="w-10 h-10 rounded-full">
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-xs text-sky-500">Your Guide</p>
+                                    <p class="font-bold text-sky-900">${activeTrip.guide}</p>
+                                </div>
+                                <button class="btn-icon" onclick="openChatDetail(1)">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <button class="flex-1 btn-secondary text-sm py-3" onclick="openModal('ticketModal')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="inline mr-1">
+                                        <path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 002 2 2 2 0 012 2v3a2 2 0 01-2 2 2 2 0 01-2-2v-3a2 2 0 012-2 2 2 0 002-2V7a2 2 0 00-2-2z"/>
+                                    </svg>
+                                    Tiket
+                                </button>
+                                <button class="flex-1 btn-primary text-sm py-3" onclick="openItinerary()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="inline mr-1">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                    </svg>
+                                    Itinerary
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History -->
+                <div id="bookingRiwayat" class="space-y-4 hidden">
+                    <div class="card p-4 opacity-60">
+                        <div class="flex gap-4">
+                            <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 grayscale">
+                                <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=200&h=200&fit=crop" alt="Raja Ampat" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-sky-900 mb-1">Raja Ampat Adventure</h3>
+                                <p class="text-sky-500 text-sm">1-5 November 2024</p>
+                                <span class="badge badge-sky">Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchBookingTab(tab) {
+            const tabAktif = document.getElementById('tabAktif');
+            const tabRiwayat = document.getElementById('tabRiwayat');
+            const aktif = document.getElementById('bookingAktif');
+            const riwayat = document.getElementById('bookingRiwayat');
+            
+            if (tab === 'aktif') {
+                tabAktif.className = 'flex-1 py-3 rounded-xl bg-sky-500 text-white font-bold text-sm';
+                tabRiwayat.className = 'flex-1 py-3 rounded-xl bg-white border-2 border-sky-100 text-sky-600 font-bold text-sm';
+                aktif.classList.remove('hidden');
+                riwayat.classList.add('hidden');
+            } else {
+                tabRiwayat.className = 'flex-1 py-3 rounded-xl bg-sky-500 text-white font-bold text-sm';
+                tabAktif.className = 'flex-1 py-3 rounded-xl bg-white border-2 border-sky-100 text-sky-600 font-bold text-sm';
+                riwayat.classList.remove('hidden');
+                aktif.classList.add('hidden');
+            }
+        }
+
+        // ==================== RENDER CHAT ====================
+        function renderChat() {
+            const container = document.getElementById('chatContent');
+            container.innerHTML = `
+                <div class="space-y-3">
+                    ${chatContacts.map(c => `
+                        <div class="card p-4 flex items-center gap-4 cursor-pointer" onclick="openChatDetail(${c.id})">
+                            <div class="relative">
+                                <div class="avatar-ring">
+                                    <img src="${c.avatar}" alt="${c.name}" class="w-12 h-12 rounded-full object-cover">
+                                </div>
+                                ${c.online ? '<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>' : ''}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-bold text-sky-900">${c.name}</h3>
+                                <p class="text-sky-400 text-xs">${c.role}</p>
+                                <p class="text-sky-500 text-sm truncate">${c.lastMsg}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sky-400 text-xs mb-1">${c.time}</p>
+                                ${c.unread > 0 ? `<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange-500 text-white text-xs font-bold">${c.unread}</span>` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function openChatDetail(id) {
+            const contact = chatContacts.find(c => c.id === id);
+            if (contact) {
+                document.getElementById('chatAvatar').src = contact.avatar;
+                document.getElementById('chatName').textContent = contact.name;
+                renderChatMessages();
+                openModal('chatModal');
+            }
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = chatHistory.map(m => `
+                <div class="${m.sender === 'me' ? 'ml-auto' : 'mr-auto'} max-w-[80%]">
+                    <div class="p-3 ${m.sender === 'me' ? 'chat-sent' : 'chat-received'}">
+                        <p class="text-sm">${m.msg}</p>
+                    </div>
+                    <p class="text-xs text-sky-400 mt-1 ${m.sender === 'me' ? 'text-right' : ''}">${m.time}</p>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendChat() {
+            const input = document.getElementById('chatInput');
+            if (input.value.trim()) {
+                chatHistory.push({ sender: 'me', msg: input.value, time: 'Sekarang' });
+                renderChatMessages();
+                input.value = '';
+                
+                setTimeout(() => {
+                    chatHistory.push({ sender: 'them', msg: 'Baik, pesan Anda diterima! Ada yang bisa dibantu lagi?', time: 'Sekarang' });
+                    renderChatMessages();
+                }, 1000);
+            }
+        }
+
+        function handleChatEnter(e) {
+            if (e.key === 'Enter') sendChat();
+        }
+
+        // ==================== RENDER PROFILE ====================
+        function renderProfile() {
+            const container = document.getElementById('profileContent');
+            container.innerHTML = `
+                <div class="card p-6 text-center mb-4 animate-in">
+                    <div class="avatar-ring inline-block mb-4">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Nanda" class="w-24 h-24 rounded-full object-cover">
+                    </div>
+                    <h2 class="font-display text-2xl font-bold text-sky-900 mb-1">Nanda Arianto</h2>
+                    <p class="text-sky-500 text-sm mb-5">nanda@tripzy.com</p>
+                    <div class="flex items-center justify-center gap-8">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-sky-600">12</p>
+                            <p class="text-sky-400 text-xs font-semibold">Trip</p>
+                        </div>
+                        <div class="w-px h-10 bg-sky-100"></div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-orange-500">8</p>
+                            <p class="text-sky-400 text-xs font-semibold">Negara</p>
+                        </div>
+                        <div class="w-px h-10 bg-sky-100"></div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-green-500">24</p>
+                            <p class="text-sky-400 text-xs font-semibold">Review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 animate-in delay-1">
+                    <button class="card w-full p-4 flex items-center gap-4 text-left" onclick="showToast('Edit profil akan segera hadir', 'warning')">
+                        <div class="w-12 h-12 rounded-xl bg-sky-100 flex items-center justify-center">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-bold text-sky-900">Edit Profil</p>
+                            <p class="text-sky-400 text-sm">Ubah foto, nama, bio</p>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+
+                    <button class="card w-full p-4 flex items-center gap-4 text-left" onclick="showToast('Metode pembayaran akan segera hadir', 'warning')">
+                        <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
+                                <rect x="1" y="4" width="22" height="16" rx="2"/>
+                                <line x1="1" y1="10" x2="23" y2="10"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-bold text-sky-900">Metode Pembayaran</p>
+                            <p class="text-sky-400 text-sm">Kartu, e-wallet, transfer</p>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+
+                    <button class="card w-full p-4 flex items-center gap-4 text-left" onclick="showToast('Destinasi tersimpan akan segera hadir', 'warning')">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-bold text-sky-900">Destinasi Tersimpan</p>
+                            <p class="text-sky-400 text-sm">Wishlist perjalanan Anda</p>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <button class="w-full mt-6 py-4 rounded-2xl border-2 border-red-200 text-red-500 font-bold hover:bg-red-50 transition-colors animate-in delay-2" onclick="handleLogout()">
+                    <span class="flex items-center justify-center gap-2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        Keluar dari TRIPZY
+                    </span>
+                </button>
+            `;
+        }
+
+        // ==================== ITINERARY ====================
+        function openItinerary() {
+            renderItinerary();
+            openModal('itineraryModal');
+        }
+
+        function renderItinerary() {
+            const container = document.getElementById('itineraryContent');
+            
+            const icons = {
+                plane: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+                hotel: '<path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Zm-4 14H8m8-4H8m8-4H8"/>',
+                food: '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+                camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+                sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+                temple: '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>',
+                shopping: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>'
+            };
+            
+            container.innerHTML = activeTrip.itinerary.map((day, dayIndex) => `
+                <div class="mb-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white font-bold">
+                            D${day.day}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sky-900">${day.title}</h3>
+                            <p class="text-sky-500 text-xs">${day.date}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pl-2">
+                        ${day.activities.map((act, actIndex) => `
+                            <div class="timeline-item ${dayIndex === 0 && actIndex === 0 ? 'active' : ''}">
+                                <div class="timeline-dot"></div>
+                                <div class="card-static p-4 mb-3">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center flex-shrink-0">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                ${icons[act.icon] || icons.camera}
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-xs font-bold text-sky-500">${act.time}</span>
+                                            <h4 class="font-semibold text-sky-900">${act.title}</h4>
+                                            <p class="text-sky-400 text-xs flex items-center gap-1 mt-1">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                    <circle cx="12" cy="10" r="3"/>
+                                                </svg>
+                                                ${act.location}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== FILTERS ====================
+        function openFilters() {
+            renderFilterModal();
+            openModal('filterModal');
+        }
+
+        function renderFilterModal() {
+            // Category buttons
+            const catContainer = document.getElementById('filterCategoryBtns');
+            catContainer.innerHTML = categories.map(cat => `
+                <button class="filter-chip ${activeFilter.category === cat ? 'active' : ''}" onclick="selectCategory('${cat}')">${cat}</button>
+            `).join('');
+            
+            // Duration buttons
+            const durContainer = document.getElementById('filterDurationBtns');
+            durContainer.innerHTML = durations.map(dur => `
+                <button class="flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${activeFilter.duration === dur ? 'bg-sky-500 text-white' : 'bg-sky-100 text-sky-700 hover:bg-sky-200'}" onclick="selectDuration('${dur}')">${dur === '1-3' ? '1-3 Hari' : dur === '3-7' ? '3-7 Hari' : '7+ Hari'}</button>
+            `).join('');
+            
+            // Price inputs
+            document.getElementById('priceMin').value = activeFilter.minPrice ? activeFilter.minPrice.toLocaleString('id-ID') : '';
+            document.getElementById('priceMax').value = activeFilter.maxPrice ? activeFilter.maxPrice.toLocaleString('id-ID') : '';
+        }
+
+        function selectCategory(cat) {
+            activeFilter.category = cat;
+            renderFilterModal();
+        }
+
+        function selectDuration(dur) {
+            activeFilter.duration = activeFilter.duration === dur ? null : dur;
+            renderFilterModal();
+        }
+
+        function applyFilters() {
+            // Parse price inputs
+            const minVal = document.getElementById('priceMin').value.replace(/\D/g, '');
+            const maxVal = document.getElementById('priceMax').value.replace(/\D/g, '');
+            
+            activeFilter.minPrice = minVal ? parseInt(minVal) : null;
+            activeFilter.maxPrice = maxVal ? parseInt(maxVal) : null;
+            
+            closeModal('filterModal');
+            renderFilterChips();
+            applyFiltersAndRender();
+            showToast('Filter diterapkan!', 'success');
+        }
+
+        function resetFilters() {
+            activeFilter = {
+                category: 'Semua',
+                duration: null,
+                minPrice: null,
+                maxPrice: null
+            };
+            renderFilterModal();
+            renderFilterChips();
+            applyFiltersAndRender();
+            closeModal('filterModal');
+            showToast('Filter direset', 'success');
+        }
+
+        // ==================== BOOKING FUNCTIONS ====================
+        function bookDestination(id) {
+            selectedDest = destinations.find(d => d.id === id);
+            if (!selectedDest) {
+                selectedDest = {
+                    id: id,
+                    name: 'Labuan Bajo Escape',
+                    location: 'NTT',
+                    duration: '5D4N',
+                    price: 11750000,
+                    image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&h=400&fit=crop',
+                    desc: 'Petualangan seru di surganya Indonesia'
+                };
+            }
+            
+            document.getElementById('modalImg').src = selectedDest.image;
+            document.getElementById('modalTitle').textContent = selectedDest.name;
+            document.getElementById('modalDesc').textContent = `${selectedDest.duration} - ${selectedDest.location} | ${selectedDest.desc || ''}`;
+            qty = 2;
+            document.getElementById('qtyCount').textContent = qty;
+            updateTotal();
+            openModal('bookingModal');
+        }
+
+        function changeQty(delta) {
+            qty = Math.max(1, Math.min(10, qty + delta));
+            document.getElementById('qtyCount').textContent = qty;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            if (selectedDest) {
+                const total = selectedDest.price * qty;
+                document.getElementById('totalPrice').textContent = formatPrice(total);
+            }
+        }
+
+        function confirmBooking() {
+            closeModal('bookingModal');
+            setTimeout(() => openModal('paymentModal'), 300);
+        }
+
+        function selectPayment(method) {
+            showToast(`Metode ${method.toUpperCase()} dipilih`, 'success');
+        }
+
+        function processPayment() {
+            closeModal('paymentModal');
+            setTimeout(() => {
+                openModal('successModal');
+            }, 300);
+        }
+
+        // ==================== NOTIFICATIONS ====================
+        function openNotifications() {
+            const container = document.getElementById('notifList');
+            const icons = {
+                success: '<path d="M20 6L9 17l-5-5"/>',
+                warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+                promo: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>'
+            };
+            const colors = { success: '#16a34a', warning: '#f97316', promo: '#0ea5e9' };
+            
+            container.innerHTML = notifications.map(n => `
+                <div class="card-static p-4 flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: ${colors[n.type]}15">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${colors[n.type]}" stroke-width="2">${icons[n.type]}</svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sky-900 text-sm">${n.title}</h3>
+                        <p class="text-sky-500 text-sm">${n.message}</p>
+                        <p class="text-sky-400 text-xs mt-1">${n.time}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            openModal('notifModal');
+        }
+
+        // ==================== SEARCH ====================
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            if (query.length > 2) {
+                const filtered = destinations.filter(d => 
+                    d.name.toLowerCase().includes(query) || 
+                    d.location.toLowerCase().includes(query) ||
+                    d.category.toLowerCase().includes(query)
+                );
+                renderExploreList(filtered);
+            } else if (query.length === 0) {
+                applyFiltersAndRender();
+            }
+        }
+
+        function openSettings() {
+            showToast('Pengaturan akan segera hadir', 'warning');
+        }
+
+        // ==================== UTILITIES ====================
+        function formatPrice(price) {
+            return 'Rp ' + price.toLocaleString('id-ID');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function closeOnOverlay(e, id) {
+            if (e.target.id === id) closeModal(id);
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const text = document.getElementById('toastText');
+            const icon = document.getElementById('toastIcon');
+            
+            const icons = {
+                success: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>',
+                warning: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+            };
+            
+            text.textContent = message;
+            icon.innerHTML = icons[type] || icons.success;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
