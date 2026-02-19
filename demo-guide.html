@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TRIPZY - Guide Mode</title>
+    <meta name="theme-color" content="#0ea5e9">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --sky-500: #0ea5e9;
+            --sky-600: #0284c7;
+            --sky-900: #0c4a6e;
+            --coral: #f97316;
+            --text-primary: #0c4a6e;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #16a34a;
+        }
+
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; height: 100%; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(180deg, #a8d4f5 0%, #d4e8f7 40%, #fce8d5 85%, #ffd9b3 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        .font-display { font-family: 'Sora', sans-serif; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(14, 165, 233, 0.3); border-radius: 10px; }
+        * { scrollbar-width: thin; scrollbar-color: rgba(14, 165, 233, 0.3) rgba(255, 255, 255, 0.1); }
+
+        /* Background */
+        .bg-scene { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+        .sun {
+            position: absolute; width: 80px; height: 80px; top: 8%; right: 10%;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g1" cx="0.5" cy="0.5" r="0.5"><stop offset="0%" stop-color="%23FFF4B8"/><stop offset="70%" stop-color="%23FFD54F"/><stop offset="100%" stop-color="%23FFB74D"/></radialGradient></defs><circle cx="40" cy="40" r="35" fill="url(%23g1)"/></svg>') no-repeat center/contain;
+            animation: sunGrow 10s ease-in-out infinite; will-change: transform;
+        }
+        @keyframes sunGrow { 0%, 100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.05); opacity: 1; } }
+        .mountains {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 200px; pointer-events: none;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path fill="%23dce9f5" fill-opacity="0.6" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path><path fill="%23e8f1f8" fill-opacity="0.8" d="M0,288L60,277.3C120,267,240,245,360,234.7C480,224,600,224,720,234.7C840,245,960,267,1080,250.7C1200,235,1320,181,1380,154.7L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>');
+            background-size: cover; background-position: bottom;
+        }
+
+        /* Glass Components */
+        .card {
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.06); transition: all 0.35s ease; position: relative; overflow: hidden;
+        }
+        .card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%; background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%); pointer-events: none; border-radius: 24px 24px 0 0; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(14, 165, 233, 0.1); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--sky-500), var(--sky-600)); color: white; font-weight: 600;
+            padding: 14px 28px; border-radius: 16px; border: none; cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); font-family: 'Outfit', sans-serif; font-size: 15px;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; position: relative; overflow: hidden;
+        }
+        .btn-primary::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%); }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(14, 165, 233, 0.3); }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.6); color: var(--sky-600); font-weight: 600; padding: 12px 24px;
+            border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.6); cursor: pointer; transition: all 0.2s ease;
+            font-family: 'Outfit', sans-serif; font-size: 14px; position: relative; overflow: hidden;
+        }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.8); }
+
+        .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+        .btn-danger:hover { box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4); }
+        
+        .btn-icon {
+            width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(255, 255, 255, 0.6); cursor: pointer;
+            transition: all 0.2s ease; color: var(--sky-600); flex-shrink: 0; position: relative; overflow: hidden;
+        }
+        .btn-icon:hover { background: rgba(255, 255, 255, 0.9); transform: scale(1.02); }
+
+        .input-field {
+            width: 100%; background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px; padding: 16px 16px 16px 52px; font-size: 15px; color: var(--text-primary);
+            transition: all 0.2s ease; font-family: 'Outfit', sans-serif;
+        }
+        .input-field:focus { outline: none; border-color: var(--sky-400); background: rgba(255, 255, 255, 0.9); }
+
+        /* Page System */
+        .app-page { display: none; opacity: 0; flex: 1 0 auto; width: 100%; }
+        .app-page.active { display: flex; flex-direction: column; animation: pageEnter 0.4s ease forwards; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; padding: 8px 16px; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+        .nav-container {
+            max-width: 440px; margin: 0 auto; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 28px; padding: 8px; box-shadow: 0 8px 32px rgba(14, 165, 233, 0.08);
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 16px;
+            border-radius: 18px; cursor: pointer; transition: all 0.2s ease; color: #94a3b8;
+            background: transparent; border: none; font-family: 'Outfit', sans-serif;
+        }
+        .nav-item.active { color: var(--sky-600); background: rgba(14, 165, 233, 0.1); }
+        .nav-item span { font-size: 11px; font-weight: 600; }
+
+        /* Modals */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(14, 165, 233, 0.2); backdrop-filter: blur(8px); z-index: 200; display: none; align-items: flex-end; justify-content: center; padding: 16px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            width: 100%; max-width: 440px; max-height: 92vh; overflow-y: auto;
+            background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 32px 32px 24px 24px; transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 300; width: calc(100% - 32px); max-width: 400px; }
+        .toast {
+            background: white; border-radius: 18px; padding: 16px 20px; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.12);
+            border-left: 4px solid var(--sky-500); display: flex; align-items: center; gap: 14px;
+            transform: translateY(-150px); opacity: 0; transition: all 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.danger { border-left-color: var(--danger); }
+
+        /* Animations */
+        .animate-in { animation: slideUp 0.5s ease forwards; opacity: 0; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; }
+
+        /* Avatar */
+        .avatar-ring { padding: 3px; background: linear-gradient(135deg, var(--sky-400), var(--coral)); border-radius: 50%; box-shadow: 0 4px 10px rgba(14, 165, 233, 0.1); }
+
+        /* Chat */
+        .chat-sent { background: linear-gradient(135deg, var(--sky-500), var(--sky-600)); color: white; border-radius: 20px 20px 6px 20px; }
+        .chat-received { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); color: var(--text-primary); border-radius: 20px 20px 20px 6px; border: 1px solid rgba(255,255,255,0.6); }
+
+        /* SOS & TRACKING */
+        .sos-btn-wrapper { position: relative; width: 100%; height: 70px; border-radius: 20px; background: rgba(239, 68, 68, 0.1); overflow: hidden; cursor: pointer; -webkit-user-select: none; user-select: none; }
+        .sos-progress { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: linear-gradient(135deg, #ef4444, #dc2626); transition: width 0.1s linear; z-index: 1; }
+        .sos-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 12px; color: #ef4444; font-weight: 700; font-size: 16px; z-index: 2; transition: color 0.2s; }
+        .sos-btn-wrapper.active .sos-content { color: white; }
+        .sos-btn-wrapper.active .sos-progress { width: 100%; }
+
+        .tracking-map-container { position: relative; width: 100%; aspect-ratio: 4/3; border-radius: 20px; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&h=600&fit=crop') center/cover; overflow: hidden; border: 1px solid rgba(255,255,255,0.4); }
+        .map-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+        .map-marker { position: absolute; transform: translate(-50%, -50%); z-index: 10; transition: all 1s linear; }
+        .marker-pulse { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: currentColor; opacity: 0.3; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: markerPulse 2s infinite; }
+        @keyframes markerPulse { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; } 100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; } }
+
+        /* Status Dots */
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px rgba(0,0,0,0.1); }
+        .status-safe { background: #16a34a; }
+        .status-sos { background: #ef4444; animation: statusPulse 1s infinite; }
+        .status-offline { background: #94a3b8; }
+        @keyframes statusPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0); } }
+
+        /* Desktop */
+        @media (min-width: 768px) {
+            .modal-overlay { align-items: center; }
+            .modal-content { border-radius: 32px; max-height: 88vh; }
+            .bottom-nav { left: 50%; transform: translateX(-50%); max-width: 500px; }
+            #loginPage { padding: 2rem; }
+            #loginPage > div { max-width: 28rem; width: 100%; margin: 0 auto; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="bg-scene"><div class="sun"></div><div class="mountains"></div></div>
+    <div class="toast-container"><div id="toast" class="toast"><div id="toastIcon"></div><span id="toastText" class="font-semibold text-sm flex-1"></span></div></div>
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="app-page active min-h-screen flex items-center justify-center p-5">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-10 animate-in">
+                <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl card mb-6">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0ea5e9" stroke-width="2.5"/>
+                        <path d="M2 17L12 22L22 17" stroke="#0ea5e9" stroke-width="2.5"/>
+                        <path d="M2 12L12 17L22 12" stroke="#f97316" stroke-width="2.5"/>
+                    </svg>
+                </div>
+                <h1 class="font-display text-5xl font-bold bg-gradient-to-r from-sky-600 via-sky-500 to-orange-400 bg-clip-text text-transparent mb-3">TRIPZY</h1>
+                <p class="text-sky-600 font-medium text-lg">Guide Dashboard</p>
+            </div>
+            <div class="card p-8 animate-in delay-1">
+                <h2 class="font-display text-2xl font-bold text-center mb-8 text-sky-900">Selamat Datang, Guide!</h2>
+                <div class="mb-5">
+                    <label class="text-xs font-bold text-sky-700 uppercase tracking-wider mb-2 block">Email</label>
+                    <div class="relative">
+                        <svg class="absolute left-5 top-1/2 -translate-y-1/2 text-sky-400" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <input type="email" id="loginEmail" class="input-field" placeholder="nama@email.com" value="tomi@tripzy.com">
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <label class="text-xs font-bold text-sky-700 uppercase tracking-wider mb-2 block">Password</label>
+                    <div class="relative">
+                        <svg class="absolute left-5 top-1/2 -translate-y-1/2 text-sky-400" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="loginPassword" class="input-field pr-12" placeholder="Masukkan password" value="tomi123">
+                        <button type="button" class="absolute right-5 top-1/2 -translate-y-1/2 text-sky-400 hover:text-sky-600" onclick="togglePassword()">
+                            <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <button class="btn-primary w-full mb-5" onclick="handleLogin()">
+                    <span>Masuk Dashboard</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP (Guide Dashboard) -->
+    <div id="mainApp" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4">
+            <div class="card flex items-center justify-between px-5 py-4">
+                <div class="flex items-center gap-3">
+                    <div class="avatar-ring"><img src="https://i.pravatar.cc/100?img=12" alt="Tomi" class="w-12 h-12 rounded-full object-cover"></div>
+                    <div><p class="text-sky-400 text-xs font-medium">Guide Dashboard,</p><h3 class="font-bold text-sky-900 text-lg">Tomi Ariyanto</h3></div>
+                </div>
+                <button class="btn-icon relative" onclick="openNotifications()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-orange-500 text-white text-xs flex items-center justify-center font-bold">1</span>
+                </button>
+            </div>
+        </header>
+        <div class="px-5 space-y-6" id="homeContent"></div>
+    </div>
+
+    <!-- PARTICIPANTS PAGE -->
+    <div id="participantsPage" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4">
+            <div class="card px-5 py-4 flex items-center gap-3">
+                <div class="flex-1 relative">
+                    <svg class="absolute left-5 top-1/2 -translate-y-1/2 text-sky-400" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <input type="text" class="input-field" placeholder="Cari peserta...">
+                </div>
+                <button class="btn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+            </div>
+        </header>
+        <div class="px-5" id="participantsContent"></div>
+    </div>
+
+    <!-- TRACKING PAGE -->
+    <div id="trackingPage" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4">
+            <div class="card px-5 py-4">
+                <h1 class="font-display text-2xl font-bold text-sky-900 mb-2">Live Tracking</h1>
+                <p class="text-sky-500 text-sm">Pantau lokasi seluruh peserta</p>
+            </div>
+        </header>
+        <div class="px-5" id="trackingContent"></div>
+    </div>
+
+    <!-- CHAT PAGE -->
+    <div id="chatPage" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4"><div class="card px-5 py-4"><h1 class="font-display text-2xl font-bold text-sky-900">Grup Chat</h1></div></header>
+        <div class="px-5" id="chatContent"></div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="profilePage" class="app-page pb-24">
+        <header class="sticky top-0 z-50 px-5 py-4"><div class="card px-5 py-4 flex items-center justify-between"><h1 class="font-display text-2xl font-bold text-sky-900">Profil Guide</h1><button class="btn-icon" onclick="showToast('Pengaturan akan segera hadir', 'warning')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button></div></header>
+        <div class="px-5" id="profileContent"></div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav id="bottomNav" class="bottom-nav hidden">
+        <div class="nav-container">
+            <div class="flex items-center justify-around">
+                <button class="nav-item active" data-page="mainApp" onclick="navigate('mainApp')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></button>
+                <button class="nav-item" data-page="participantsPage" onclick="navigate('participantsPage')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Peserta</span></button>
+                <button class="nav-item" data-page="trackingPage" onclick="navigate('trackingPage')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="22"/></svg><span>Tracking</span></button>
+                <button class="nav-item" data-page="chatPage" onclick="navigate('chatPage')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Chat</span></button>
+                <button class="nav-item" data-page="profilePage" onclick="navigate('profilePage')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MODALS -->
+    <div id="itineraryModal" class="modal-overlay" onclick="closeOnOverlay(event, 'itineraryModal')"><div class="modal-content p-6"><div class="flex items-center justify-between mb-6"><div><h2 class="font-display text-xl font-bold text-sky-900">Itinerary</h2><p class="text-sky-500 text-sm">Bali Cultural Trip</p></div><button class="btn-icon" onclick="closeModal('itineraryModal')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div id="itineraryContent"></div></div></div>
+    <div id="notifModal" class="modal-overlay" onclick="closeOnOverlay(event, 'notifModal')"><div class="modal-content p-6"><div class="flex items-center justify-between mb-6"><h2 class="font-display text-xl font-bold text-sky-900">Notifikasi</h2><button class="btn-icon" onclick="closeModal('notifModal')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="space-y-3" id="notifList"></div></div></div>
+    <div id="chatModal" class="modal-overlay" onclick="closeOnOverlay(event, 'chatModal')"><div class="modal-content flex flex-col max-h-[92vh]"><div class="p-4 border-b border-sky-100/50 flex items-center gap-3"><button class="btn-icon" onclick="closeModal('chatModal')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button><div class="avatar-ring"><img id="chatAvatar" src="" alt="" class="w-11 h-11 rounded-full object-cover"></div><div><h3 id="chatName" class="font-bold text-sky-900"></h3></div></div><div class="flex-1 p-4 overflow-y-auto space-y-3 min-h-[300px]" id="chatMessages"></div><div class="p-4 border-t border-sky-100/50"><div class="flex items-center gap-3"><input type="text" id="chatInput" class="input-field pl-4" placeholder="Ketik pesan..." onkeypress="handleChatEnter(event)"><button class="btn-primary px-4" onclick="sendChat()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div></div></div>
+    
+    <!-- SOS MODAL -->
+    <div id="sosModal" class="modal-overlay" onclick="closeOnOverlay(event, 'sosModal')">
+        <div class="modal-content p-6 text-center">
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-red-100 flex items-center justify-center animate-pulse">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <h2 class="font-display text-2xl font-bold text-red-600 mb-3">SOS Aktif!</h2>
+            <p class="text-sky-600 mb-6">Pusat panggilan darurat dan seluruh peserta telah dihubungi.</p>
+            <div class="card p-4 mb-6 text-left">
+                <p class="text-xs text-sky-400 mb-3 font-semibold uppercase">Status Peserta:</p>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500"></span><span class="text-sm text-sky-900">Nanda (Aman)</span></div>
+                    <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500"></span><span class="text-sm text-sky-900">Rina (Aman)</span></div>
+                    <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500"></span><span class="text-sm text-sky-900">Budi (Aman)</span></div>
+                </div>
+            </div>
+            <button class="btn-primary w-full bg-gray-500 hover:bg-gray-600" onclick="closeModal('sosModal')">Batalkan SOS</button>
+        </div>
+    </div>
+
+    <!-- SOS Incoming Modal (Simulasi) -->
+    <div id="sosIncomingModal" class="modal-overlay" onclick="closeOnOverlay(event, 'sosIncomingModal')">
+        <div class="modal-content p-6 text-center bg-red-50/95">
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-red-100 flex items-center justify-center" style="animation: statusPulse 0.5s infinite;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <h2 class="font-display text-2xl font-bold text-red-600 mb-3">SOS Diterima!</h2>
+            <p class="text-sky-800 mb-6 font-semibold">Nanda membutuhkan bantuan!</p>
+            <div class="flex gap-3">
+                <button class="flex-1 btn-secondary" onclick="closeModal('sosIncomingModal')">Tutup</button>
+                <button class="flex-1 btn-danger" onclick="window.open('tel:112'); closeModal('sosIncomingModal')">Hubungi</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA
+        const activeTrip = { id: 'bali-cultural', name: 'Bali Cultural Trip', location: 'Bali', image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&h=400&fit=crop', duration: '3D2N', date: '15-17 Desember 2024', price: 4500000, participants: 8, guide: 'Tomi Ariyanto', itinerary: [{ day: 1, date: '15 Desember 2024', title: 'Arrival & Welcome', activities: [{ time: '08:00', title: 'Pick-up Bandara Ngurah Rai', location: 'Denpasar', icon: 'plane' }, { time: '10:00', title: 'Check-in Hotel & Rest', location: 'Ubud', icon: 'hotel' }, { time: '15:00', title: 'Visit Tegallalang Rice Terrace', location: 'Tegallalang', icon: 'camera' }] }, { day: 2, date: '16 Desember 2024', title: 'Bali Heritage Tour', activities: [{ time: '06:00', title: 'Sunrise at Tanah Lot Temple', location: 'Tabanan', icon: 'sun' }, { time: '11:00', title: 'Visit Tirta Empul Temple', location: 'Tampaksiring', icon: 'temple' }, { time: '19:00', title: 'Dinner - Jimbaran Beach', location: 'Jimbaran', icon: 'food' }] }, { day: 3, date: '17 Desember 2024', title: 'Departure', activities: [{ time: '07:00', title: 'Breakfast & Check-out', location: 'Hotel', icon: 'hotel' }, { time: '12:00', title: 'Transfer to Airport', location: 'Bandara Ngurah Rai', icon: 'plane' }] }] };
+        
+        // Guide Specific Data
+        const participants = [
+            { id: 1, name: 'Nanda Arianto', avatar: 'https://i.pravatar.cc/100?img=68', status: 'safe', lastSeen: '1 menit lalu', location: 'Tanah Lot', distance: '50m' },
+            { id: 2, name: 'Rina Wati', avatar: 'https://i.pravatar.cc/100?img=45', status: 'safe', lastSeen: '2 menit lalu', location: 'Tanah Lot', distance: '120m' },
+            { id: 3, name: 'Budi Santoso', avatar: 'https://i.pravatar.cc/100?img=60', status: 'safe', lastSeen: '5 menit lalu', location: 'Tanah Lot', distance: '85m' },
+            { id: 4, name: 'Sari Dewi', avatar: 'https://i.pravatar.cc/100?img=44', status: 'offline', lastSeen: '1 jam lalu', location: 'Hotel', distance: '2km' },
+        ];
+
+        const notifications = [
+            { id: 1, title: 'SOS Diterima!', message: 'Nanda membutuhkan bantuan!', time: 'Baru saja', type: 'danger' },
+            { id: 2, title: 'Peserta Bergabung', message: 'Sari baru saja check-in', time: '1 jam lalu', type: 'success' }
+        ];
+
+        const chatGroup = { id: 1, name: 'Grup Bali Trip', avatar: 'https://i.pravatar.cc/100?img=12', lastMsg: 'Tomi: Jangan lupa besok meeting...', time: '10:30', unread: 5 };
+        let chatHistory = [
+            { sender: 'them', name: 'Nanda', msg: 'Guide, kita ketemu dimana ya?', time: '10:00' },
+            { sender: 'me', msg: 'Di loby hotel jam 8 ya', time: '10:05' },
+            { sender: 'them', name: 'Rina', msg: 'Siap guide!', time: '10:10' }
+        ];
+        
+        let selectedParticipant = null;
+        let trackingInterval = null;
+        // Simulated positions (percentages)
+        let markersPos = [
+            { id: 1, x: 30, y: 40, name: 'Nanda', color: '#3b82f6' },
+            { id: 2, x: 35, y: 45, name: 'Rina', color: '#8b5cf6' },
+            { id: 3, x: 28, y: 42, name: 'Budi', color: '#ec4899' },
+            { id: 4, x: 80, y: 80, name: 'Sari', color: '#64748b' } // Far away (Offline simulation)
+        ];
+
+        // LOGIN
+        function togglePassword() { const input = document.getElementById('loginPassword'); const icon = document.getElementById('eyeIcon'); if (input.type === 'password') { input.type = 'text'; icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'; } else { input.type = 'password'; icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'; } }
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value; const pass = document.getElementById('loginPassword').value;
+            if (!email || !pass) { showToast('Mohon isi email dan password', 'warning'); return; }
+            const loginEl = document.getElementById('loginPage'); loginEl.classList.remove('active'); loginEl.style.display = 'none';
+            const mainEl = document.getElementById('mainApp'); mainEl.classList.add('active'); mainEl.style.opacity = 1; mainEl.style.transform = 'none';
+            document.getElementById('bottomNav').classList.remove('hidden');
+            window.scrollTo(0, 0); renderHome(); showToast('Login berhasil!', 'success');
+        }
+        function handleLogout() { document.querySelectorAll('.app-page').forEach(p => { p.classList.remove('active'); p.style.opacity = 0; p.style.display = 'none'; }); document.getElementById('bottomNav').classList.add('hidden'); const loginEl = document.getElementById('loginPage'); loginEl.style.display = 'flex'; loginEl.classList.add('active'); loginEl.style.opacity = 1; window.scrollTo(0, 0); showToast('Anda telah keluar', 'success'); }
+        function navigate(pageId) {
+            document.querySelectorAll('.app-page').forEach(p => { p.classList.remove('active'); p.style.opacity = 0; });
+            const target = document.getElementById(pageId); target.classList.add('active'); target.style.opacity = 1; target.style.transform = 'none';
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const navBtn = document.querySelector(`.nav-item[data-page="${pageId}"]`); if (navBtn) navBtn.classList.add('active');
+            window.scrollTo(0, 0);
+            if (pageId === 'mainApp') renderHome(); else if (pageId === 'participantsPage') renderParticipants(); else if (pageId === 'trackingPage') renderTracking(); else if (pageId === 'chatPage') renderChat(); else if (pageId === 'profilePage') renderProfile();
+        }
+
+        // RENDER HOME (Guide Dashboard)
+        function renderHome() { document.getElementById('homeContent').innerHTML = `
+            <div class="animate-in">
+                <div class="flex items-center justify-between mb-4"><h2 class="font-bold text-xl text-sky-900">Tour Aktif</h2><span class="badge badge-green">ONGOING</span></div>
+                <div class="card overflow-hidden border-2 border-sky-200/50">
+                    <div class="relative"><img src="${activeTrip.image}" alt="${activeTrip.name}" class="w-full h-44 object-cover"><div class="absolute top-3 left-3"><span class="badge badge-sky">${activeTrip.date}</span></div></div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-xl text-sky-900 mb-1">${activeTrip.name}</h3>
+                        <p class="text-sky-600 text-sm mb-4">${activeTrip.participants} Peserta</p>
+                        
+                        <!-- Status Grid -->
+                        <div class="grid grid-cols-3 gap-3 mb-5">
+                            <div class="text-center p-3 rounded-xl bg-green-50/50 border border-green-100"><p class="text-2xl font-bold text-green-600">3</p><p class="text-xs text-green-500">Aman</p></div>
+                            <div class="text-center p-3 rounded-xl bg-red-50/50 border border-red-100"><p class="text-2xl font-bold text-red-600">0</p><p class="text-xs text-red-500">SOS</p></div>
+                            <div class="text-center p-3 rounded-xl bg-gray-50/50 border border-gray-100"><p class="text-2xl font-bold text-gray-600">1</p><p class="text-xs text-gray-500">Offline</p></div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <button class="btn-secondary text-sm py-3 flex items-center justify-center gap-1" onclick="navigate('trackingPage')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>Tracking</button>
+                            <button class="btn-secondary text-sm py-3 flex items-center justify-center gap-1" onclick="openItinerary()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Itinerary</button>
+                        </div>
+
+                        <div class="sos-btn-wrapper" id="sosBtn" onmousedown="startSos(event)" onmouseup="cancelSos()" onmouseleave="cancelSos()" ontouchstart="startSos(event)" ontouchend="cancelSos()">
+                            <div class="sos-progress" id="sosProgress"></div>
+                            <div class="sos-content"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span id="sosText">Tahan 3 Detik (SOS Grup)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="animate-in delay-1">
+                <div class="flex items-center justify-between mb-4"><h2 class="font-bold text-xl text-sky-900">Peserta Terbaru</h2><button class="text-sky-500 font-semibold text-sm" onclick="navigate('participantsPage')">Lihat Semua</button></div>
+                <div class="space-y-3">
+                    ${participants.slice(0,3).map(p => `
+                        <div class="card p-4 flex items-center gap-4 cursor-pointer" onclick="openParticipantDetail(${p.id})">
+                            <div class="relative">
+                                <div class="avatar-ring"><img src="${p.avatar}" alt="${p.name}" class="w-12 h-12 rounded-full object-cover"></div>
+                                <div class="absolute bottom-0 right-0 status-dot status-${p.status}"></div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-sky-900">${p.name}</h3>
+                                <p class="text-sky-500 text-sm">${p.location}</p>
+                            </div>
+                            <span class="text-xs text-sky-400">${p.distance}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <div class="animate-in delay-2 pb-4">
+                <div class="card p-4 flex items-center gap-4 cursor-pointer" onclick="navigate('chatPage')">
+                    <div class="avatar-ring"><img src="${chatGroup.avatar}" alt="" class="w-12 h-12 rounded-full object-cover"></div>
+                    <div class="flex-1 min-w-0"><h3 class="font-bold text-sky-900">${chatGroup.name}</h3><p class="text-sky-500 text-sm truncate">${chatGroup.lastMsg}</p></div>
+                    <div class="text-right"><p class="text-sky-400 text-xs mb-1">${chatGroup.time}</p><span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange-500 text-white text-xs font-bold">${chatGroup.unread}</span></div>
+                </div>
+            </div>
+        `; }
+
+        // RENDER PARTICIPANTS
+        function renderParticipants() { 
+            document.getElementById('participantsContent').innerHTML = `
+                <div class="space-y-3 mt-2">
+                    ${participants.map(p => `
+                        <div class="card p-4 flex items-center gap-4 cursor-pointer" onclick="openParticipantDetail(${p.id})">
+                            <div class="relative">
+                                <div class="avatar-ring"><img src="${p.avatar}" alt="${p.name}" class="w-12 h-12 rounded-full object-cover"></div>
+                                <div class="absolute bottom-0 right-0 status-dot status-${p.status}"></div>
+                            </div>
+                            <div class="flex-1"><h3 class="font-bold text-sky-900">${p.name}</h3><p class="text-sky-500 text-sm">${p.location}</p></div>
+                            <div class="text-right"><p class="text-xs text-sky-400">${p.distance}</p><p class="text-xs text-sky-300">${p.lastSeen}</p></div>
+                        </div>
+                    `).join('')}
+                </div>
+                <!-- Simulasi Tombol SOS Masuk -->
+                <div class="mt-6 text-center">
+                    <button class="btn-secondary text-xs" onclick="simulateSOS()">Simulasi: Terima SOS dari Peserta</button>
+                </div>
+            `; 
+        }
+
+        function openParticipantDetail(id) {
+            const p = participants.find(x => x.id === id);
+            if(!p) return;
+            showToast(`Membuka profil ${p.name}`, 'success');
+            // Logic detail bisa ditambahkan di sini
+        }
+
+        // RENDER TRACKING
+        function renderTracking() {
+            document.getElementById('trackingContent').innerHTML = `
+                <div class="tracking-map-container mb-4 animate-in" id="trackingMap">
+                    <div class="map-grid"></div>
+                    <!-- Markers rendered by JS -->
+                </div>
+                <div class="flex items-center justify-between mb-4 p-4 rounded-2xl bg-sky-50/80 backdrop-blur animate-in delay-1">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <div><p class="font-bold text-sky-900">Tracking Grup Aktif</p><p class="text-xs text-green-600">Memantau ${participants.length} peserta</p></div>
+                    </div>
+                </div>
+                <div class="space-y-3 animate-in delay-2">
+                    ${participants.map(p => `
+                        <div class="card p-4 flex items-center gap-4">
+                            <div class="avatar-ring"><img src="${p.avatar}" class="w-10 h-10 rounded-full"></div>
+                            <div class="flex-1"><p class="font-bold text-sky-900">${p.name}</p><p class="text-xs text-${p.status === 'safe' ? 'green' : 'red'}-500 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-${p.status === 'safe' ? 'green' : 'red'}-500"></span>${p.status === 'safe' ? ' Bergerak' : ' SOS / Offline'}</p></div>
+                            <button class="btn-icon" onclick="focusMarker(${p.id})"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            startTrackingSimulation();
+        }
+
+        function startTrackingSimulation() {
+            renderMapMarkers();
+            if (trackingInterval) clearInterval(trackingInterval);
+            trackingInterval = setInterval(() => {
+                markersPos.forEach(m => {
+                    m.x += (Math.random() - 0.5) * 3;
+                    m.y += (Math.random() - 0.5) * 3;
+                    m.x = Math.max(10, Math.min(90, m.x));
+                    m.y = Math.max(10, Math.min(90, m.y));
+                });
+                renderMapMarkers();
+            }, 2000);
+        }
+
+        function renderMapMarkers() {
+            const mapEl = document.getElementById('trackingMap');
+            if(!mapEl) return;
+            mapEl.querySelectorAll('.map-marker').forEach(m => m.remove());
+            
+            // Add Guide Marker (Self)
+            const selfMarker = createMarker(50, 50, '#0ea5e9', 'Anda (Guide)');
+            mapEl.appendChild(selfMarker);
+
+            markersPos.forEach(m => {
+                const marker = createMarker(m.x, m.y, m.color, m.name);
+                mapEl.appendChild(marker);
+            });
+        }
+
+        function createMarker(x, y, color, name) {
+            const marker = document.createElement('div');
+            marker.className = 'map-marker';
+            marker.style.left = x + '%';
+            marker.style.top = y + '%';
+            marker.style.color = color;
+            marker.innerHTML = `
+                <div class="marker-pulse"></div>
+                <div style="position:relative;z-index:2">
+                    <div style="width:36px;height:36px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.15);border:3px solid ${color}">
+                        <div style="width:14px;height:14px;background:${color};border-radius:50%"></div>
+                    </div>
+                    <div style="position:absolute;top:-24px;left:50%;transform:translateX(-50%);white-space:nowrap;background:white;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;color:#334155;box-shadow:0 2px 6px rgba(0,0,0,0.1)">${name}</div>
+                </div>
+            `;
+            return marker;
+        }
+
+        function focusMarker(id) {
+            const m = markersPos.find(x => x.id === id);
+            if(m) showToast(`Fokus ke ${m.name}`, 'success');
+        }
+
+        // RENDER CHAT
+        function renderChat() { document.getElementById('chatContent').innerHTML = `<div class="card p-4 flex items-center gap-4 cursor-pointer animate-in" onclick="openChatGroup()"><div class="avatar-ring"><img src="${chatGroup.avatar}" alt="" class="w-12 h-12 rounded-full object-cover"></div><div class="flex-1 min-w-0"><h3 class="font-bold text-sky-900">${chatGroup.name}</h3><p class="text-sky-500 text-sm truncate">${chatGroup.lastMsg}</p></div><div class="text-right"><p class="text-sky-400 text-xs mb-1">${chatGroup.time}</p><span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange-500 text-white text-xs font-bold">${chatGroup.unread}</span></div></div>`; }
+        function openChatGroup() { document.getElementById('chatAvatar').src = chatGroup.avatar; document.getElementById('chatName').textContent = chatGroup.name; renderChatMessages(); openModal('chatModal'); }
+        function renderChatMessages() { document.getElementById('chatMessages').innerHTML = chatHistory.map(m => `<div class="${m.sender === 'me' ? 'ml-auto' : 'mr-auto'} max-w-[80%]"><p class="text-xs font-bold text-sky-400 mb-1">${m.sender === 'me' ? 'Anda' : m.name}</p><div class="p-3 ${m.sender === 'me' ? 'chat-sent' : 'chat-received'}"><p class="text-sm">${m.msg}</p></div><p class="text-xs text-sky-400 mt-1 ${m.sender === 'me' ? 'text-right' : ''}">${m.time}</p></div>`).join(''); document.getElementById('chatMessages').scrollTop = 9999; }
+        function sendChat() { const i = document.getElementById('chatInput'); if (i.value.trim()) { chatHistory.push({ sender: 'me', msg: i.value, time: 'Sekarang' }); renderChatMessages(); i.value = ''; } }
+        function handleChatEnter(e) { if (e.key === 'Enter') sendChat(); }
+
+        // RENDER PROFILE
+        function renderProfile() { document.getElementById('profileContent').innerHTML = `<div class="card p-6 text-center mb-4 animate-in"><div class="avatar-ring inline-block mb-4"><img src="https://i.pravatar.cc/150?img=12" alt="" class="w-24 h-24 rounded-full object-cover"></div><h2 class="font-display text-2xl font-bold text-sky-900 mb-1">Tomi Ariyanto</h2><p class="text-sky-500 text-sm mb-5">Guide Profesional</p><div class="flex items-center justify-center gap-8"><div class="text-center"><p class="text-2xl font-bold text-sky-600">15</p><p class="text-sky-400 text-xs">Tour</p></div><div class="w-px h-10 bg-sky-100"></div><div class="text-center"><p class="text-2xl font-bold text-orange-500">4.9</p><p class="text-sky-400 text-xs">Rating</p></div></div></div><button class="w-full mt-6 py-4 rounded-2xl border-2 border-red-200/50 bg-white/30 backdrop-blur text-red-500 font-bold hover:bg-red-50/50 transition-colors animate-in delay-2" onclick="handleLogout()"><span class="flex items-center justify-center gap-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar</span></button>`; }
+
+        // ITINERARY
+        function openItinerary() { renderItinerary(); openModal('itineraryModal'); }
+        function renderItinerary() { const icons = { plane: 'M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z', hotel: 'M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Zm-4 14H8m8-4H8m8-4H8', food: 'M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7', camera: 'M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z', sun: 'M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41', temple: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5' }; document.getElementById('itineraryContent').innerHTML = activeTrip.itinerary.map((day, di) => `<div class="mb-6"><div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white font-bold">D${day.day}</div><div><h3 class="font-bold text-sky-900">${day.title}</h3><p class="text-sky-500 text-xs">${day.date}</p></div></div><div class="pl-2">${day.activities.map((a, ai) => `<div class="timeline-item ${di === 0 && ai === 0 ? 'active' : ''}"><div class="timeline-dot"></div><div class="card p-4 mb-3"><div class="flex items-start gap-3"><div class="w-10 h-10 rounded-xl bg-sky-100/60 backdrop-blur flex items-center justify-center flex-shrink-0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${icons[a.icon] || icons.camera}"/></svg></div><div class="flex-1"><span class="text-xs font-bold text-sky-500">${a.time}</span><h4 class="font-semibold text-sky-900">${a.title}</h4><p class="text-sky-400 text-xs flex items-center gap-1 mt-1"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${a.location}</p></div></div></div></div>`).join('')}</div></div>`).join(''); }
+
+        // NOTIFICATIONS
+        function openNotifications() { const icons = { success: '<path d="M20 6L9 17l-5-5"/>', danger: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>' }; const colors = { success: '#16a34a', danger: '#ef4444' }; document.getElementById('notifList').innerHTML = notifications.map(n => `<div class="card p-4 flex items-start gap-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:${colors[n.type]}15"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${colors[n.type]}" stroke-width="2">${icons[n.type]}</svg></div><div class="flex-1"><h3 class="font-bold text-sky-900 text-sm">${n.title}</h3><p class="text-sky-500 text-sm">${n.message}</p><p class="text-sky-400 text-xs mt-1">${n.time}</p></div></div>`).join(''); openModal('notifModal'); }
+
+        // SOS LOGIC
+        let sosTimer = null; let sosProgress = 0; const SOS_DURATION = 3000;
+        function startSos(e) {
+            e.preventDefault();
+            const btn = document.getElementById('sosBtn');
+            btn.classList.add('active');
+            document.getElementById('sosText').textContent = 'Mengirim...';
+            sosProgress = 0; updateSosProgress();
+            sosTimer = setInterval(() => { sosProgress += 50; updateSosProgress(); if (sosProgress >= 100) triggerSos(); }, SOS_DURATION / 20);
+        }
+        function updateSosProgress() { document.getElementById('sosProgress').style.width = sosProgress + '%'; }
+        function cancelSos() {
+            const btn = document.getElementById('sosBtn');
+            if (!btn.classList.contains('active')) return;
+            clearInterval(sosTimer); sosTimer = null; sosProgress = 0;
+            btn.classList.remove('active');
+            document.getElementById('sosProgress').style.width = '0%';
+            document.getElementById('sosText').textContent = 'Tahan 3 Detik (SOS Grup)';
+        }
+        function triggerSos() { clearInterval(sosTimer); sosTimer = null; setTimeout(() => { openModal('sosModal'); showToast('SOS Grup Terkirim!', 'danger'); }, 200); }
+        
+        // Simulate Incoming SOS (Demo Only)
+        function simulateSOS() { openModal('sosIncomingModal'); showToast('PERINGATAN: SOS Diterima!', 'danger'); }
+
+        // UTILS
+        function formatPrice(p) { return 'Rp ' + p.toLocaleString('id-ID'); }
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); if(id === 'trackingModal' && trackingInterval) { clearInterval(trackingInterval); trackingInterval = null; } }
+        function closeOnOverlay(e, id) { if (e.target.id === id) closeModal(id); }
+        function showToast(m, t = 'success') { const toast = document.getElementById('toast'); document.getElementById('toastText').textContent = m; document.getElementById('toastIcon').innerHTML = t === 'success' ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>' : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'; toast.className = `toast ${t}`; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
+    </script>
+</body>
+</html>
