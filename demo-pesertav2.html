@@ -15,17 +15,27 @@
             --coral: #f97316; --text-primary: #0c4a6e; --text-muted: #94a3b8;
             --danger: #ef4444; --success: #16a34a;
         }
+
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; height: 100%; -webkit-text-size-adjust: 100%; }
+
+        /* FIX BACKGROUND & HEIGHT: Nurut sama browser */
+        html, body {
+            min-height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Outfit', sans-serif;
-            background: linear-gradient(180deg, #a8d4f5 0%, #d4e8f7 40%, #fce8d5 85%, #ffd9b3 100%);
-            background-attachment: fixed; color: var(--text-primary);
-            min-height: 100%; display: flex; flex-direction: column; overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
+            background: #a8d4f5 linear-gradient(180deg, #a8d4f5 0%, #d4e8f7 40%, #fce8d5 85%, #ffd9b3 100%) no-repeat;
+            background-attachment: fixed;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            overflow-y: auto;
         }
+
         .font-display { font-family: 'Sora', sans-serif; }
-        
         ::-webkit-scrollbar { width: 0; height: 0; }
 
         .bg-scene { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
@@ -45,37 +55,54 @@
         .btn-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(255, 255, 255, 0.6); cursor: pointer; color: var(--sky-600); flex-shrink: 0; z-index: 10; }
         .input-field { width: 100%; background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 14px; padding: 12px 16px; font-size: 16px; color: var(--text-primary); font-family: 'Outfit', sans-serif; }
 
-        /* 1. PAGE CONTENT */
-        .app-page { display: none; opacity: 0; flex: 1 0 auto; width: 100%; padding-bottom: 110px; } 
-        .app-page.active { display: flex; flex-direction: column; animation: pageEnter 0.3s ease forwards; }
-        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* FIX CENTER LOGIN */
+        #loginPage {
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #loginPage.active { display: flex !important; }
 
-        /* 2. NAVBAR: VERSI SEBELUMNYA (Bottom 20px + Safe Area) */
+        /* KONTEN UTAMA */
+        .app-page {
+            display: none;
+            width: 100%;
+            padding-bottom: 120px;
+        }
+        .app-page.active { display: block; animation: pageEnter 0.3s ease forwards; }
+
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: slideUp 0.4s ease forwards; opacity: 0; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* NAVBAR FIX: DITURUNKAN (10px) agar tidak terlalu tinggi */
         .bottom-nav { 
             position: fixed; 
-            bottom: 0; 
+            /* Jarak 10px dari dasar + Safe Area */
+            bottom: calc(10px + env(safe-area-inset-bottom)); 
             left: 0; right: 0; 
-            z-index: 999; 
-            padding: 0 12px; 
-            padding-bottom: max(10px, env(safe-area-inset-bottom)); /* Safe area untuk gesture bar */
-            background: transparent; 
-            border: none; outline: none;
+            z-index: 9999; 
+            padding: 0 16px;
+            pointer-events: none; 
+            background: transparent;
         }
         .nav-container { 
-            max-width: 100%; 
+            max-width: 480px; 
             margin: 0 auto; 
-            margin-bottom: 20px; /* Margin mendorong nav ke atas dari dasar */
-            background: rgba(255, 255, 255, 0.99); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255, 255, 255, 0.6); 
-            border-radius: 24px; 
-            padding: 8px 10px; 
-            box-shadow: 0 5px 25px rgba(14, 165, 233, 0.15); 
+            background: rgba(255, 255, 255, 0.98); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8); 
+            border-radius: 30px; 
+            padding: 12px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); 
             display: flex; 
             align-items: center; 
             justify-content: space-around; 
-            min-height: 64px; 
-            position: relative; 
+            pointer-events: auto; 
         }
         
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; transition: all 0.2s ease; color: #94a3b8; background: transparent; border: none; font-family: 'Outfit', sans-serif; width: 20%; padding: 4px; position: relative; z-index: 1; }
@@ -98,20 +125,17 @@
         .nav-sos-btn.active { animation: sosShake 0.3s infinite; }
 
         /* MODALS */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(14, 165, 233, 0.4); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(14, 165, 233, 0.4); backdrop-filter: blur(4px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 24px; }
         .modal-overlay.active { display: flex; }
         .modal-content { width: 100%; max-width: 340px; max-height: 85vh; overflow-y: auto; background: rgba(255, 255, 255, 0.98); border-radius: 24px; border: 1px solid white; transform: scale(0.9); opacity: 0; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
         /* TOAST */
-        .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; width: calc(100% - 32px); max-width: 380px; }
+        .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 20000; width: calc(100% - 32px); max-width: 380px; }
         .toast { background: white; border-radius: 14px; padding: 12px 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-left: 4px solid var(--sky-500); display: flex; align-items: center; gap: 12px; transform: translateY(-100px); opacity: 0; transition: all 0.3s; }
         .toast.show { transform: translateY(0); opacity: 1; }
         .toast.danger { border-left-color: var(--danger); }
 
-        .animate-in { animation: slideUp 0.4s ease forwards; opacity: 0; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        
         /* Map */
         .tracking-map-container { position: relative; width: 100%; height: 180px; border-radius: 16px; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&h=400&fit=crop') center/cover; overflow: hidden; border: 1px solid rgba(255,255,255,0.4); }
         .map-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 30px 30px; pointer-events: none; }
@@ -126,7 +150,7 @@
 
         /* Dest Grid */
         .grid-dest { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .dest-item img { height: 90px; width: 100%; object-cover: cover; }
+        .dest-item img { height: 90px; width: 100%; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -134,7 +158,7 @@
     <div class="toast-container"><div id="toast" class="toast"><div id="toastIcon"></div><span id="toastText" class="font-semibold text-sm flex-1"></span></div></div>
 
     <!-- LOGIN PAGE -->
-    <div id="loginPage" class="app-page active min-h-screen flex items-center justify-center p-5">
+    <div id="loginPage" class="app-page active">
         <div class="w-full max-w-sm">
             <div class="text-center mb-8 animate-in">
                 <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl card mb-4">
@@ -225,11 +249,59 @@
         let guidePosition = { x: 30, y: 40 };
 
         // LOGIN
-        function handleLogin() { document.getElementById('loginPage').classList.remove('active'); document.getElementById('loginPage').style.display = 'none'; document.getElementById('mainApp').classList.add('active'); document.getElementById('mainApp').style.opacity = 1; document.getElementById('bottomNav').classList.remove('hidden'); renderHome(); }
-        function handleLogout() { document.querySelectorAll('.app-page').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; }); document.getElementById('bottomNav').classList.add('hidden'); document.getElementById('loginPage').style.display = 'flex'; document.getElementById('loginPage').classList.add('active'); }
+        function handleLogin() {
+            document.getElementById('loginPage').classList.remove('active');
+            document.getElementById('loginPage').style.display = 'none';
+            
+            const mainApp = document.getElementById('mainApp');
+            mainApp.classList.add('active');
+            document.getElementById('bottomNav').classList.remove('hidden');
+            
+            window.scrollTo(0, 1);
+            window.scrollTo(0, 0);
+            
+            renderHome();
+        }
+        
+        function handleLogout() { 
+            document.querySelectorAll('.app-page').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; }); 
+            document.getElementById('bottomNav').classList.add('hidden'); 
+            document.getElementById('loginPage').style.display = 'flex'; 
+            document.getElementById('loginPage').classList.add('active'); 
+            window.scrollTo(0, 0);
+        }
 
         // NAV
-        function navigate(pageId) { document.querySelectorAll('.app-page').forEach(p => { p.classList.remove('active'); p.style.opacity = 0; }); document.getElementById(pageId).classList.add('active'); document.getElementById(pageId).style.opacity = 1; document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); document.querySelector(`.nav-item[data-page="${pageId}"]`)?.classList.add('active'); window.scrollTo(0, 0); if (pageId === 'mainApp') renderHome(); else if (pageId === 'bookingPage') renderBooking(); else if (pageId === 'chatPage') renderChat(); else if (pageId === 'profilePage') renderProfile(); }
+        function navigate(pageId) { 
+            document.querySelectorAll('.app-page').forEach(p => {
+                p.classList.remove('active');
+                p.style.display = 'none';
+            });
+
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.style.display = 'block';
+                setTimeout(() => target.classList.add('active'), 10);
+            }
+
+            window.scrollTo(0, 0);
+
+            document.querySelectorAll('.nav-item').forEach(n => {
+                n.classList.remove('active');
+                if(n.getAttribute('onclick')?.includes(pageId)) {
+                    n.classList.add('active');
+                }
+            });
+
+            if (pageId === 'mainApp') renderHome();
+            if (pageId === 'bookingPage') renderBooking();
+            if (pageId === 'chatPage') renderChat();
+            if (pageId === 'profilePage') renderProfile();
+        }
+
+        window.addEventListener('load', () => {
+            window.scrollTo(0, 1);
+        });
 
         // RENDER HOME
         function renderHome() {
