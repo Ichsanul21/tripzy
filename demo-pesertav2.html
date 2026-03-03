@@ -78,7 +78,7 @@
         .animate-in { animation: slideUp 0.4s ease forwards; opacity: 0; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* NAVBAR FIX: DITURUNKAN (10px) agar tidak terlalu tinggi */
+        /* NAVBAR FIX: POSISI PAS (10px) */
         .bottom-nav { 
             position: fixed; 
             /* Jarak 10px dari dasar + Safe Area */
@@ -150,7 +150,8 @@
 
         /* Dest Grid */
         .grid-dest { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .dest-item img { height: 90px; width: 100%; object-fit: cover; }
+        .grid-dest .card { cursor: pointer; }
+        .grid-dest img { height: 90px; width: 100%; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -230,6 +231,21 @@
     <div id="chatModal" class="modal-overlay" onclick="closeOnOverlay(event, 'chatModal')"><div class="modal-content flex flex-col max-h-[80vh]"><div class="p-3 border-b border-sky-100 flex items-center gap-2"><button class="btn-icon" onclick="closeModal('chatModal')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button><div class="avatar-ring"><img id="chatAvatar" src="" class="w-9 h-9 rounded-full"></div><h3 id="chatName" class="font-bold text-sky-900"></h3></div><div class="flex-1 p-3 overflow-y-auto space-y-2" id="chatMessages"></div><div class="p-3 border-t border-sky-100 flex gap-2"><input type="text" id="chatInput" class="input-field text-sm" placeholder="Ketik pesan..." onkeypress="handleChatEnter(event)"><button class="btn-primary px-3" onclick="sendChat()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div></div>
     <div id="sosModal" class="modal-overlay" onclick="closeOnOverlay(event, 'sosModal')"><div class="modal-content p-6 text-center"><div class="w-20 h-20 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center animate-pulse"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><h2 class="font-display text-xl font-bold text-red-600 mb-2">SOS Terkirim!</h2><p class="text-sky-600 text-sm mb-6">Bantuan sedang dalam perjalanan.</p><button class="btn-primary bg-gray-500" onclick="closeModal('sosModal')">Tutup</button></div></div>
     <div id="notifDetailModal" class="modal-overlay" onclick="closeOnOverlay(event, 'notifDetailModal')"><div class="modal-content p-5"><div class="flex items-center justify-between mb-4"><h2 class="font-display text-lg font-bold text-sky-900">Notifikasi</h2><button class="btn-icon" onclick="closeModal('notifDetailModal')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div id="notifDetailContent"></div></div></div>
+    
+    <!-- MODAL BOOKING (TAMBAHAN) -->
+    <div id="bookingModal" class="modal-overlay" onclick="closeOnOverlay(event, 'bookingModal')">
+        <div class="modal-content p-5">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-display text-lg font-bold text-sky-900" id="bookingTitle">Detail Trip</h2>
+                <button class="btn-icon" onclick="closeModal('bookingModal')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <img id="bookingImg" src="" class="w-full h-40 object-cover rounded-xl mb-4">
+            <div id="bookingDetails" class="mb-4"></div>
+            <button id="bookingBtn" class="btn-primary">Pesan Sekarang</button>
+        </div>
+    </div>
 
     <script>
         // DATA
@@ -238,13 +254,14 @@
         const chatContacts = [{ id: 1, name: 'Tomi (Guide)', avatar: 'https://i.pravatar.cc/100?img=12', lastMsg: 'Sampai ketemu besok!', time: '10:30', unread: 2 }];
         let chatHistory = [{ sender: 'them', msg: 'Halo Nanda!', time: '10:00' }, { sender: 'me', msg: 'Halo Tom!', time: '10:05' }];
         const destinations = [
-            { id: 1, name: 'Raja Ampat', img: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=300&h=200&fit=crop', dur: '5D4N', price: '15jt' },
-            { id: 2, name: 'Bromo', img: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=300&h=200&fit=crop', dur: '2D1N', price: '3.5jt' },
-            { id: 3, name: 'Komodo', img: 'https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=300&h=200&fit=crop', dur: '4D3N', price: '8.5jt' },
-            { id: 4, name: 'Bunaken', img: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=200&fit=crop', dur: '3D2N', price: '5.5jt' },
-            { id: 5, name: 'Lombok', img: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=300&h=200&fit=crop', dur: '4D3N', price: '4.5jt' },
-            { id: 6, name: 'Dieng', img: 'https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?w=300&h=200&fit=crop', dur: '2D1N', price: '2.8jt' }
+            { id: 1, name: 'Raja Ampat', img: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=300&h=200&fit=crop', dur: '5D4N', price: '15.000.000', desc: 'Surga bawah laut terbaik dunia.' },
+            { id: 2, name: 'Bromo', img: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=300&h=200&fit=crop', dur: '2D1N', price: '3.500.000', desc: 'Sunrise spektakuler di atas awan.' },
+            { id: 3, name: 'Komodo', img: 'https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=300&h=200&fit=crop', dur: '4D3N', price: '8.500.000', desc: 'Petualangan melihat komodo liar.' },
+            { id: 4, name: 'Bunaken', img: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=200&fit=crop', dur: '3D2N', price: '5.500.000', desc: 'Snorkeling di dinding terumbu karang.' },
+            { id: 5, name: 'Lombok', img: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=300&h=200&fit=crop', dur: '4D3N', price: '4.500.000', desc: 'Keindahan Gunung Rinjani dan Gili.' },
+            { id: 6, name: 'Dieng', img: 'https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?w=300&h=200&fit=crop', dur: '2D1N', price: '2.800.000', desc: 'Dataran tinggi dengan candi kuno.' }
         ];
+        let myBookings = []; // Array buat nyimpen pesanan
         let trackingInterval = null;
         let guidePosition = { x: 30, y: 40 };
 
@@ -273,35 +290,15 @@
 
         // NAV
         function navigate(pageId) { 
-            document.querySelectorAll('.app-page').forEach(p => {
-                p.classList.remove('active');
-                p.style.display = 'none';
-            });
-
+            document.querySelectorAll('.app-page').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
             const target = document.getElementById(pageId);
-            if (target) {
-                target.style.display = 'block';
-                setTimeout(() => target.classList.add('active'), 10);
-            }
-
+            if (target) { target.style.display = 'block'; setTimeout(() => target.classList.add('active'), 10); }
             window.scrollTo(0, 0);
-
-            document.querySelectorAll('.nav-item').forEach(n => {
-                n.classList.remove('active');
-                if(n.getAttribute('onclick')?.includes(pageId)) {
-                    n.classList.add('active');
-                }
-            });
-
-            if (pageId === 'mainApp') renderHome();
-            if (pageId === 'bookingPage') renderBooking();
-            if (pageId === 'chatPage') renderChat();
-            if (pageId === 'profilePage') renderProfile();
+            document.querySelectorAll('.nav-item').forEach(n => { n.classList.remove('active'); if(n.getAttribute('onclick')?.includes(pageId)) n.classList.add('active'); });
+            if (pageId === 'mainApp') renderHome(); else if (pageId === 'bookingPage') renderBooking(); else if (pageId === 'chatPage') renderChat(); else if (pageId === 'profilePage') renderProfile();
         }
 
-        window.addEventListener('load', () => {
-            window.scrollTo(0, 1);
-        });
+        window.addEventListener('load', () => { window.scrollTo(0, 1); });
 
         // RENDER HOME
         function renderHome() {
@@ -335,11 +332,11 @@
                     <h3 class="font-bold text-sky-900 text-sm mb-3 px-1">Destinasi Populer</h3>
                     <div class="grid-dest">
                         ${destinations.map(d => `
-                            <div class="card overflow-hidden">
+                            <div class="card overflow-hidden" onclick="openBookingModal(${d.id})">
                                 <img src="${d.img}" alt="${d.name}" class="w-full object-cover">
                                 <div class="p-2 relative z-10">
                                     <h4 class="font-bold text-sky-900 text-xs">${d.name}</h4>
-                                    <p class="text-sky-500 text-[10px]">${d.dur} • ${d.price}</p>
+                                    <p class="text-sky-500 text-[10px]">${d.dur} • Rp ${d.price}</p>
                                 </div>
                             </div>
                         `).join('')}
@@ -351,6 +348,42 @@
 
         function initHomeMap() { const mapEl = document.getElementById('homeMap'); if(!mapEl) return; mapEl.querySelectorAll('.map-marker').forEach(m => m.remove()); const userM = createMarker(50, 50, '#3b82f6', 'Anda'); mapEl.appendChild(userM); const guideM = createMarker(guidePosition.x, guidePosition.y, '#ef4444', 'Guide'); mapEl.appendChild(guideM); if (trackingInterval) clearInterval(trackingInterval); trackingInterval = setInterval(() => { guidePosition.x += (Math.random() - 0.5) * 2; guidePosition.y += (Math.random() - 0.5) * 2; guidePosition.x = Math.max(10, Math.min(90, guidePosition.x)); guidePosition.y = Math.max(10, Math.min(90, guidePosition.y)); const marker = mapEl.querySelector('.guide-marker'); if(marker) { marker.style.left = guidePosition.x + '%'; marker.style.top = guidePosition.y + '%'; } }, 2000); }
         function createMarker(x, y, color, name) { const marker = document.createElement('div'); marker.className = `map-marker ${name === 'Guide' ? 'guide-marker' : ''}`; marker.style.left = x + '%'; marker.style.top = y + '%'; marker.style.color = color; marker.innerHTML = `<div class="marker-pulse"></div><div style="position:relative;z-index:2"><div style="width:24px;height:24px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);border:2px solid ${color}"><div style="width:10px;height:10px;background:${color};border-radius:50%"></div></div></div>`; return marker; }
+
+        // BOOKING FLOW (PROSEDUR PESEN)
+        function openBookingModal(id) {
+            const d = destinations.find(item => item.id === id);
+            if(!d) return;
+            
+            document.getElementById('bookingTitle').textContent = d.name;
+            document.getElementById('bookingImg').src = d.img;
+            document.getElementById('bookingDetails').innerHTML = `
+                <div class="flex justify-between mb-2"><span class="text-sky-500 text-xs">Durasi</span><span class="font-bold text-sky-900 text-xs">${d.dur}</span></div>
+                <div class="flex justify-between mb-2"><span class="text-sky-500 text-xs">Harga</span><span class="font-bold text-sky-900 text-xs">Rp ${d.price}</span></div>
+                <p class="text-sky-600 text-xs mt-2">${d.desc}</p>
+            `;
+            
+            const btn = document.getElementById('bookingBtn');
+            // Cek kalau udah pernah pesen
+            if(myBookings.some(b => b.id === id)) {
+                btn.textContent = "Sudah Dipesan";
+                btn.onclick = null;
+                btn.style.opacity = 0.5;
+            } else {
+                btn.textContent = "Pesan Sekarang";
+                btn.onclick = () => confirmBooking(d);
+                btn.style.opacity = 1;
+            }
+            
+            openModal('bookingModal');
+        }
+
+        function confirmBooking(trip) {
+            myBookings.push(trip);
+            closeModal('bookingModal');
+            showToast(`Berhasil memesan ${trip.name}!`);
+            // Optional: langsung lempar ke halaman booking
+            // navigate('bookingPage');
+        }
 
         // SOS
         let sosTimer = null; let sosProgress = 0; const SOS_DURATION = 3000;
@@ -367,7 +400,24 @@
         function renderItinerary() { const icons = { plane: 'M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2', camera: 'M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z', sun: 'M12 2v2M12 20v2', food: 'M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Z' }; document.getElementById('itineraryContent').innerHTML = activeTrip.itinerary.map((day) => `<div class="mb-5"><div class="flex items-center gap-2 mb-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white font-bold text-xs">D${day.day}</div><div><h3 class="font-bold text-sky-900 text-sm">${day.title}</h3><p class="text-sky-500 text-[10px]">${day.date}</p></div></div><div class="pl-2">${day.activities.map(a => `<div class="timeline-mini-item"><div class="timeline-mini-dot"></div><div class="card p-2 mb-2"><div class="flex items-start gap-2"><div class="w-8 h-8 rounded-lg bg-sky-100/60 flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><path d="${icons[a.icon] || icons.camera}"/></svg></div><div class="flex-1"><span class="text-[10px] font-bold text-sky-500">${a.time}</span><h4 class="text-xs font-semibold text-sky-900">${a.title}</h4></div></div></div></div>`).join('')}</div></div>`).join(''); }
 
         // OTHERS
-        function renderBooking() { document.getElementById('bookingContent').innerHTML = `<div class="card overflow-hidden"><img src="${activeTrip.image}" class="w-full h-32 object-cover"><div class="p-4 relative z-10"><h3 class="font-bold text-sky-900">${activeTrip.name}</h3><p class="text-sky-500 text-xs mb-3">${activeTrip.date}</p><button class="btn-primary text-sm" onclick="openModal('ticketModal')">Lihat Tiket</button></div></div>`; }
+        function renderBooking() { 
+            let html = ``;
+            if (myBookings.length === 0) {
+                html = `<div class="text-center py-10 text-sky-500">Kamu belum punya pesanan.<br>Klik destinasi di Home untuk pesan.</div>`;
+            } else {
+                html = myBookings.map(d => `
+                    <div class="card overflow-hidden mb-4">
+                        <img src="${d.img}" class="w-full h-32 object-cover">
+                        <div class="p-4 relative z-10">
+                            <h3 class="font-bold text-sky-900">${d.name}</h3>
+                            <p class="text-sky-500 text-xs mb-1">${d.dur} • Rp ${d.price}</p>
+                            <span class="bg-green-100 text-green-600 text-[10px] px-2 py-0.5 rounded-full font-bold">Terkonfirmasi</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('bookingContent').innerHTML = html;
+        }
         function renderChat() { document.getElementById('chatContent').innerHTML = `<div class="card p-3 flex items-center gap-3 cursor-pointer relative z-10" onclick="openChatDetail()"><div class="avatar-ring"><img src="${chatContacts[0].avatar}" class="w-10 h-10 rounded-full"></div><div class="flex-1"><h3 class="font-bold text-sky-900 text-sm">${chatContacts[0].name}</h3><p class="text-sky-500 text-xs truncate">${chatContacts[0].lastMsg}</p></div><div class="text-right"><span class="bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">${chatContacts[0].unread}</span></div></div>`; }
         function openChatDetail() { document.getElementById('chatAvatar').src = chatContacts[0].avatar; document.getElementById('chatName').textContent = chatContacts[0].name; renderChatMessages(); openModal('chatModal'); }
         function renderChatMessages() { document.getElementById('chatMessages').innerHTML = chatHistory.map(m => `<div class="${m.sender === 'me' ? 'ml-auto bg-sky-500 text-white rounded-2xl rounded-br-sm' : 'mr-auto bg-white text-sky-900 rounded-2xl rounded-bl-sm'} max-w-[80%] p-2 text-xs mb-2">${m.msg}</div>`).join(''); }
